@@ -89,7 +89,7 @@
       }
     }
     </script>
-      <link rel="stylesheet" href="configurator.css" />
+      <link rel="stylesheet" href="configurator.css?v=20260529i" />
   </head>
 
   <body>
@@ -457,6 +457,9 @@
                         <canvas class="lm-configurator__layer" data-layer="shell_B"></canvas>
                         <canvas class="lm-configurator__layer" data-layer="uphol_B"></canvas>
                         <div class="lm-configurator__spinner" id="lmStageSpinner" aria-hidden="true"></div>
+                        <button type="button" class="lm-configurator__expand" id="lmExpandBtn" aria-label="Visualizza a schermo intero" title="Schermo intero">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 3 3 3 3 9"/><polyline points="15 3 21 3 21 9"/><polyline points="15 21 21 21 21 15"/><polyline points="9 21 3 21 3 15"/></svg>
+                        </button>
                     </div>
                     <div class="lm-configurator__stage-meta">
                         <div class="lm-configurator__selection">
@@ -483,6 +486,16 @@
 
             </aside>
         </section>
+
+        <div class="lm-lightbox" id="lmLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Configurazione a schermo intero">
+            <button type="button" class="lm-lightbox__close" id="lmLightboxClose" aria-label="Chiudi">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+            </button>
+            <div class="lm-lightbox__inner">
+                <canvas class="lm-lightbox__canvas" id="lmLightboxCanvas"></canvas>
+            </div>
+            <div class="lm-lightbox__caption" id="lmLightboxCaption"></div>
+        </div>
     </div>
 
     <div id="6240" class="prodotto__info-wrapper container-fluid">
@@ -955,7 +968,7 @@
 
         <!-- removed: laurameroni app.min.js was causing chunk-loader retry loop -->
       <script src="manifest.data.js" defer></script>
-      <script src="configurator.js" defer></script>
+      <script src="configurator.js?v=20260529i" defer></script>
   </body>
 
 </html>

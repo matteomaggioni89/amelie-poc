@@ -168,6 +168,11 @@
     hintWood: document.getElementById('lmHintWood'),
     hintLeather: document.getElementById('lmHintLeather'),
     downloadBtn: document.getElementById('lmDownloadBtn'),
+    expandBtn: document.getElementById('lmExpandBtn'),
+    lightbox: document.getElementById('lmLightbox'),
+    lightboxCanvas: document.getElementById('lmLightboxCanvas'),
+    lightboxClose: document.getElementById('lmLightboxClose'),
+    lightboxCaption: document.getElementById('lmLightboxCaption'),
   };
 
   function makeTab(group, isActive, onClick) {
@@ -310,12 +315,57 @@
     els.hintLeather.textContent = cl ? 'Pelle ' + cl.label : '—';
   }
 
+  // ---- Composite tutti i layer visibili in un contesto 2D (risoluzione nativa) ----
+  function paintComposite(targetCtx) {
+    LAYER_KEYS.forEach(k => layers[k] && targetCtx.drawImage(layers[k].canvas, 0, 0, W, H));
+  }
+
   if (els.downloadBtn) els.downloadBtn.addEventListener('click', () => {
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
-    const ctx = cv.getContext('2d');
-    LAYER_KEYS.forEach(k => layers[k] && ctx.drawImage(layers[k].canvas, 0, 0, W, H));
+    paintComposite(cv.getContext('2d'));
     const a = document.createElement('a'); a.href = cv.toDataURL('image/png'); a.download = 'amelie-configurazione.png'; a.click();
   });
+
+  // ---- Lightbox a schermo intero (solo visualizzazione) ----
+  if (els.expandBtn && els.lightbox && els.lightboxCanvas) {
+    const lb = els.lightbox;
+    const lbCtx = els.lightboxCanvas.getContext('2d');
+    let lastFocus = null;
+
+    const caption = () => {
+      const w = ((els.hintWood && els.hintWood.textContent) || '').trim();
+      const l = ((els.hintLeather && els.hintLeather.textContent) || '').trim();
+      return [w, l].filter(s => s && s !== '—').join(' · ');
+    };
+    const open = () => {
+      els.lightboxCanvas.width = W; els.lightboxCanvas.height = H;
+      lbCtx.clearRect(0, 0, W, H);
+      paintComposite(lbCtx);
+      if (els.lightboxCaption) els.lightboxCaption.textContent = caption();
+      lastFocus = document.activeElement;
+      lb.classList.add('is-open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('lm-noscroll');
+      document.body.classList.add('lm-noscroll');
+      if (els.lightboxClose) els.lightboxClose.focus();
+    };
+    const close = () => {
+      lb.classList.remove('is-open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('lm-noscroll');
+      document.body.classList.remove('lm-noscroll');
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+    els.expandBtn.addEventListener('click', open);
+    if (els.lightboxClose) els.lightboxClose.addEventListener('click', close);
+    lb.addEventListener('click', (e) => {
+      if (e.target.closest('.lm-lightbox__canvas') || e.target.closest('.lm-lightbox__close')) return;
+      close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
+    });
+  }
 
   renderShell();
   renderLeather();

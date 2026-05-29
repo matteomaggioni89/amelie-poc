@@ -422,3 +422,135 @@
   .lm-configurator__selection::before { width: 8px; }
   .lm-carousel__page { gap: 12px; }
 }
+
+/* =========================================================================
+   FULLSCREEN / LIGHTBOX — visualizza la configurazione a tutta finestra
+   ========================================================================= */
+
+/* Icona "espandi" in basso a destra sull'immagine */
+.lm-configurator__expand {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 4;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: rgba(255, 255, 255, .82);
+  color: var(--general-black, #232323);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 1px 6px rgba(35, 35, 35, .12);
+  opacity: .72;
+  transition: opacity .2s ease, color .2s ease, background-color .2s ease;
+}
+.lm-configurator__stage-inner:hover .lm-configurator__expand { opacity: 1; }
+.lm-configurator__expand:hover { color: var(--general-red, #E30713); background: #fff; opacity: 1; }
+.lm-configurator__expand:focus-visible { outline: 2px solid var(--general-red, #E30713); outline-offset: 2px; opacity: 1; }
+.lm-configurator__expand svg { width: 18px; height: 18px; display: block; }
+
+/* Overlay a tutta finestra (sfondo bianco: la poltrona "fluttua" nello studio) */
+.lm-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vmin, 56px);
+  background: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .32s ease, visibility 0s linear .32s;
+}
+.lm-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity .32s ease;
+}
+.lm-lightbox__inner {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(.985);
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1);
+}
+.lm-lightbox.is-open .lm-lightbox__inner { transform: scale(1); }
+.lm-lightbox__canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lm-lightbox__close {
+  position: absolute;
+  top: clamp(12px, 2.4vmin, 26px);
+  right: clamp(12px, 2.4vmin, 26px);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--general-black, #232323);
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.lm-lightbox__close:hover { color: var(--general-red, #E30713); }
+.lm-lightbox__close:focus-visible { outline: 2px solid var(--general-red, #E30713); outline-offset: 2px; }
+.lm-lightbox__close svg { width: 26px; height: 26px; display: block; }
+.lm-lightbox__caption {
+  flex: 0 0 auto;
+  margin-top: 14px;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--general-black, #232323);
+  text-align: center;
+}
+
+/* blocca lo scroll della pagina quando il lightbox è aperto */
+.lm-noscroll { overflow: hidden !important; }
+
+@media (max-width: 767.98px) {
+  .lm-configurator__expand { width: 34px; height: 34px; right: 8px; bottom: 8px; opacity: .9; }
+  .lm-configurator__expand svg { width: 16px; height: 16px; }
+  .lm-lightbox { padding: 12px; }
+  .lm-lightbox__close { width: 40px; height: 40px; }
+  .lm-lightbox__close svg { width: 22px; height: 22px; }
+  .lm-lightbox__caption { font-size: 12.5px; margin-top: 10px; }
+}
+@media (min-width: 1920px) {
+  .lm-configurator__expand { width: 44px; height: 44px; }
+  .lm-configurator__expand svg { width: 21px; height: 21px; }
+  .lm-lightbox__caption { font-size: 16px; }
+}
+@media (min-width: 2560px) {
+  .lm-configurator__expand { width: 52px; height: 52px; }
+  .lm-configurator__expand svg { width: 25px; height: 25px; }
+  .lm-lightbox__caption { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lm-lightbox, .lm-lightbox__inner { transition-duration: .15s; }
+  .lm-lightbox__inner { transform: none; }
+}
