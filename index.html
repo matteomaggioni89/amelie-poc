@@ -89,7 +89,7 @@
       }
     }
     </script>
-      <link rel="stylesheet" href="configurator.css?v=20260529i" />
+      <link rel="stylesheet" href="configurator.css?v=20260530a" />
   </head>
 
   <body>
@@ -457,16 +457,20 @@
                         <canvas class="lm-configurator__layer" data-layer="shell_B"></canvas>
                         <canvas class="lm-configurator__layer" data-layer="uphol_B"></canvas>
                         <div class="lm-configurator__spinner" id="lmStageSpinner" aria-hidden="true"></div>
-                        <button type="button" class="lm-configurator__expand" id="lmExpandBtn" aria-label="Visualizza a schermo intero" title="Schermo intero">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 3 3 3 3 9"/><polyline points="15 3 21 3 21 9"/><polyline points="15 21 21 21 21 15"/><polyline points="9 21 3 21 3 15"/></svg>
-                        </button>
+                        <div class="lm-configurator__actions">
+                            <button type="button" class="lm-configurator__action" id="lmDownloadBtn" aria-label="Salva immagine" title="Salva immagine">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10"/><polyline points="8 10 12 14 16 10"/><path d="M5 19h14"/></svg>
+                            </button>
+                            <button type="button" class="lm-configurator__action" id="lmExpandBtn" aria-label="Visualizza a schermo intero" title="Schermo intero">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 3 3 3 3 9"/><polyline points="15 3 21 3 21 9"/><polyline points="15 21 21 21 21 15"/><polyline points="9 21 3 21 3 15"/></svg>
+                            </button>
+                        </div>
                     </div>
                     <div class="lm-configurator__stage-meta">
                         <div class="lm-configurator__selection">
                             <span class="lm-configurator__sel" id="lmHintWood">—</span>
                             <span class="lm-configurator__sel" id="lmHintLeather">—</span>
                         </div>
-                        <button type="button" id="lmDownloadBtn" class="lm-configurator__ghost">Salva immagine</button>
                     </div>
                 </div>
             </div>
