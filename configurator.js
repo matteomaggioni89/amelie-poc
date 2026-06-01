@@ -120,7 +120,7 @@
     inflight.add(key); setSpinner();
     let newImg;
     try { newImg = await loadAndDecode(newSrc, true); }
-    catch (e) { inflight.delete(key); setSpinner(); return; }
+    catch (e) { console.warn('Amelie: layer non caricato', key, newSrc, e && e.message); inflight.delete(key); setSpinner(); return; }
     if (urls()[key] !== newSrc) { inflight.delete(key); setSpinner(); return; }
     if (L.raf) cancelAnimationFrame(L.raf);
     const oldImg = L.currentImg;
@@ -254,34 +254,55 @@
     paint(false);
 
     // ---- drag-to-scroll (pointer / touch) ----
-    let down = false, moved = false, startX = 0, basePx = 0, vpW = 0;
-    vp.addEventListener('pointerdown', (e) => {
-      if (pages <= 1) return;
-      down = true; moved = false; startX = e.clientX; vpW = vp.clientWidth || 1; basePx = -cur * vpW;
-      track.style.transition = 'none'; vp.classList.add('is-grabbing');
-      try { vp.setPointerCapture(e.pointerId); } catch (_) {}
-    });
-    vp.addEventListener('pointermove', (e) => {
-      if (!down) return;
+    // NB: NON usiamo vp.setPointerCapture(). Su diversi browser desktop
+    // (Chrome/Edge/Firefox) catturare il pointer su pointerdown ridireziona il
+    // `click` successivo all'elemento che ha la capture (il viewport): così il
+    // click del singolo swatch non scatta mai e la finitura selezionata NON
+    // aggiorna il layer, fallendo in silenzio. Su iOS/Safari il click non viene
+    // ridirezionato, per questo lì funziona. Tracciamo invece il drag su
+    // `window` e annulliamo il click solo quando il gesto e' stato un vero drag.
+    let down = false, moved = false, startX = 0, basePx = 0, vpW = 0, pid = null;
+    let swallowClick = false;
+    const TAP_SLOP = 8; // px: sotto questa soglia il gesto e' un tap (seleziona), non un drag
+
+    const onMove = (e) => {
+      if (!down || (pid !== null && e.pointerId !== pid)) return;
       const dx = e.clientX - startX;
-      if (Math.abs(dx) > 5) moved = true;
+      if (!moved && Math.abs(dx) > TAP_SLOP) moved = true;
+      if (!moved) return;
       let pos = basePx + dx;
       const min = -(pages - 1) * vpW, max = 0;
       if (pos > max) pos = max + (pos - max) * 0.3;
       if (pos < min) pos = min + (pos - min) * 0.3;
       track.style.transform = `translateX(${pos}px)`;
-    });
-    const end = (e) => {
-      if (!down) return; down = false; vp.classList.remove('is-grabbing');
+    };
+    const onUp = (e) => {
+      if (!down || (pid !== null && e.pointerId !== pid)) return;
+      down = false; pid = null; vp.classList.remove('is-grabbing');
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+      if (!moved) return; // tap: lasciamo che il click nativo selezioni lo swatch
+      swallowClick = true; // drag vero: annulliamo il click che lo segue
       const dx = (typeof e.clientX === 'number' ? e.clientX : startX) - startX;
       const th = Math.min(60, vpW * 0.18);
       let np = cur;
       if (dx <= -th) np = cur + 1; else if (dx >= th) np = cur - 1;
       goTo(np, true);
     };
-    vp.addEventListener('pointerup', end);
-    vp.addEventListener('pointercancel', end);
-    vp.addEventListener('click', (e) => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+    vp.addEventListener('pointerdown', (e) => {
+      if (pages <= 1) return;
+      if (e.button != null && e.button > 0) return; // solo tasto primario / touch
+      down = true; moved = false; pid = e.pointerId;
+      startX = e.clientX; vpW = vp.clientWidth || 1; basePx = -cur * vpW;
+      track.style.transition = 'none'; vp.classList.add('is-grabbing');
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+    });
+    vp.addEventListener('click', (e) => {
+      if (swallowClick) { swallowClick = false; e.stopPropagation(); e.preventDefault(); }
+    }, true);
     track.addEventListener('dragstart', (e) => e.preventDefault());
   }
 
