@@ -49,6 +49,23 @@ CREATE TABLE materials (
 CREATE INDEX idx_materials_category ON materials(category_id);
 
 -- ---------------------------------------------------------------------
+-- A1-bis  material_maps : set di texture PBR per materiale (1 materiale -> N map)
+--   Il DB pilota il look: il worker Blender carica queste texture nel materiale.
+--   Una sola map per (materiale, tipo). Bump materials.version quando cambi una map.
+-- ---------------------------------------------------------------------
+CREATE TABLE material_maps (
+  material_id TEXT NOT NULL REFERENCES materials(material_id) ON DELETE CASCADE,
+  map_type    TEXT NOT NULL CHECK (map_type IN (
+                 'base_color','roughness','metallic','normal','ao',
+                 'displacement','opacity','emission','specular','sheen','clearcoat')),
+  file_path   TEXT NOT NULL,
+  colorspace  TEXT NOT NULL DEFAULT 'Non-Color' CHECK (colorspace IN ('sRGB','Non-Color')),
+  uv_scale    REAL NOT NULL DEFAULT 1.0,
+  notes       TEXT,
+  PRIMARY KEY (material_id, map_type)
+);
+
+-- ---------------------------------------------------------------------
 -- A3  products : i ~200 prodotti + "contratto di scena"
 -- ---------------------------------------------------------------------
 CREATE TABLE products (

@@ -33,6 +33,52 @@ INSERT INTO materials (material_id, label, category_id, type, color_ref, swatch_
   ('mellow_1408',  'Mellow 1408',    'mellow',  'leather', '#7d6552', 'swatches/leather_mellow_1408.jpg', 'MATLIB.mellow_1408', 1),
   ('cloud_1015',   'Cloud 1015',     'cloud',   'leather', '#b8a98f', 'swatches/leather_cloud_1015.jpg',  'MATLIB.cloud_1015',  1);
 
+-- A1-bis  mappe PBR (esempio per alcuni materiali) ------------------
+--  base_color/emission => sRGB ; map dati (roughness/normal/...) => Non-Color
+INSERT INTO material_maps (material_id, map_type, file_path, colorspace, uv_scale) VALUES
+  -- legno: noce ebano
+  ('10_41', 'base_color', 'textures/wood/10_41/base_color.jpg', 'sRGB',       1.0),
+  ('10_41', 'roughness',  'textures/wood/10_41/roughness.jpg',  'Non-Color',  1.0),
+  ('10_41', 'normal',     'textures/wood/10_41/normal.jpg',     'Non-Color',  1.0),
+  -- laccato lucido: base + roughness bassa + clearcoat
+  ('lacca_panna', 'base_color', 'textures/lacquer/lacca_panna/base_color.jpg', 'sRGB',      1.0),
+  ('lacca_panna', 'roughness',  'textures/lacquer/lacca_panna/roughness.jpg',  'Non-Color', 1.0),
+  ('lacca_panna', 'clearcoat',  'textures/lacquer/lacca_panna/clearcoat.jpg',  'Non-Color', 1.0),
+  -- pelle nubuck (con AO)
+  ('nubuck_2138', 'base_color', 'textures/leather/nubuck_2138/base_color.jpg', 'sRGB',      2.0),
+  ('nubuck_2138', 'roughness',  'textures/leather/nubuck_2138/roughness.jpg',  'Non-Color', 2.0),
+  ('nubuck_2138', 'normal',     'textures/leather/nubuck_2138/normal.jpg',     'Non-Color', 2.0),
+  ('nubuck_2138', 'ao',         'textures/leather/nubuck_2138/ao.jpg',         'Non-Color', 2.0),
+  -- pelle savana (condivisa tra seat e piping)
+  ('savana_1001', 'base_color', 'textures/leather/savana_1001/base_color.jpg', 'sRGB',      2.0),
+  ('savana_1001', 'roughness',  'textures/leather/savana_1001/roughness.jpg',  'Non-Color', 2.0),
+  ('savana_1001', 'normal',     'textures/leather/savana_1001/normal.jpg',     'Non-Color', 2.0),
+  -- restanti materiali (set minimo base_color+roughness+normal/clearcoat)
+  ('10_16', 'base_color', 'textures/wood/10_16/base_color.jpg', 'sRGB',      1.0),
+  ('10_16', 'roughness',  'textures/wood/10_16/roughness.jpg',  'Non-Color', 1.0),
+  ('10_16', 'normal',     'textures/wood/10_16/normal.jpg',     'Non-Color', 1.0),
+  ('10_32', 'base_color', 'textures/wood/10_32/base_color.jpg', 'sRGB',      1.0),
+  ('10_32', 'roughness',  'textures/wood/10_32/roughness.jpg',  'Non-Color', 1.0),
+  ('10_32', 'normal',     'textures/wood/10_32/normal.jpg',     'Non-Color', 1.0),
+  ('lacca_sabbia', 'base_color', 'textures/lacquer/lacca_sabbia/base_color.jpg', 'sRGB',      1.0),
+  ('lacca_sabbia', 'roughness',  'textures/lacquer/lacca_sabbia/roughness.jpg',  'Non-Color', 1.0),
+  ('lacca_sabbia', 'clearcoat',  'textures/lacquer/lacca_sabbia/clearcoat.jpg',  'Non-Color', 1.0),
+  ('nubuck_2100', 'base_color', 'textures/leather/nubuck_2100/base_color.jpg', 'sRGB',      2.0),
+  ('nubuck_2100', 'roughness',  'textures/leather/nubuck_2100/roughness.jpg',  'Non-Color', 2.0),
+  ('nubuck_2100', 'normal',     'textures/leather/nubuck_2100/normal.jpg',     'Non-Color', 2.0),
+  ('savana_1005', 'base_color', 'textures/leather/savana_1005/base_color.jpg', 'sRGB',      2.0),
+  ('savana_1005', 'roughness',  'textures/leather/savana_1005/roughness.jpg',  'Non-Color', 2.0),
+  ('savana_1005', 'normal',     'textures/leather/savana_1005/normal.jpg',     'Non-Color', 2.0),
+  ('montana_1303', 'base_color', 'textures/leather/montana_1303/base_color.jpg', 'sRGB',      2.0),
+  ('montana_1303', 'roughness',  'textures/leather/montana_1303/roughness.jpg',  'Non-Color', 2.0),
+  ('montana_1303', 'normal',     'textures/leather/montana_1303/normal.jpg',     'Non-Color', 2.0),
+  ('mellow_1408', 'base_color', 'textures/leather/mellow_1408/base_color.jpg', 'sRGB',      2.0),
+  ('mellow_1408', 'roughness',  'textures/leather/mellow_1408/roughness.jpg',  'Non-Color', 2.0),
+  ('mellow_1408', 'normal',     'textures/leather/mellow_1408/normal.jpg',     'Non-Color', 2.0),
+  ('cloud_1015', 'base_color', 'textures/leather/cloud_1015/base_color.jpg', 'sRGB',      2.0),
+  ('cloud_1015', 'roughness',  'textures/leather/cloud_1015/roughness.jpg',  'Non-Color', 2.0),
+  ('cloud_1015', 'normal',     'textures/leather/cloud_1015/normal.jpg',     'Non-Color', 2.0);
+
 -- A3  prodotto ------------------------------------------------------
 INSERT INTO products (product_id, name, scene_file, camera, res_w, res_h, base_layer_path, scene_version) VALUES
   ('amelie', 'Amelie', 'scenes/amelie.blend', 'CAM_hero', 2048, 1440, 'renders/amelie/base.png', 1);

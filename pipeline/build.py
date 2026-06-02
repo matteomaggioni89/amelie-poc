@@ -65,6 +65,22 @@ def validate(con):
     """).fetchall()
     if mutual:
         print("ATTENZIONE: occlusione mutua (va pre-composta, non additiva):", mutual)
+    # materiali effettivamente usati ma senza base_color
+    no_base = con.execute("""
+        SELECT DISTINCT j.material_id FROM v_render_jobs j
+        WHERE NOT EXISTS (SELECT 1 FROM material_maps mm
+                          WHERE mm.material_id=j.material_id AND mm.map_type='base_color')
+    """).fetchall()
+    if no_base:
+        print("ATTENZIONE: materiali usati senza map 'base_color':", [r[0] for r in no_base])
+    # coerenza colorspace: base_color/emission => sRGB, le altre => Non-Color
+    bad_cs = con.execute("""
+        SELECT material_id, map_type, colorspace FROM material_maps
+        WHERE (map_type IN ('base_color','emission') AND colorspace <> 'sRGB')
+           OR (map_type NOT IN ('base_color','emission') AND colorspace <> 'Non-Color')
+    """).fetchall()
+    if bad_cs:
+        print("ATTENZIONE: colorspace incoerente con il tipo di map:", bad_cs)
 
 
 def export_manifests(con, out_dir):
@@ -80,6 +96,32 @@ def export_manifests(con, out_dir):
     return n
 
 
+def maps_signatures(con):
+    """Firma deterministica del set di map per ogni materiale: cambia se cambia
+    un path/colorspace/scala, così il job key rileva l'edit anche senza version bump."""
+    sig = {}
+    rows = con.execute("""
+        SELECT material_id, map_type, file_path, colorspace, uv_scale
+        FROM material_maps ORDER BY material_id, map_type
+    """).fetchall()
+    for mat, mtype, fp, cs, scale in rows:
+        sig.setdefault(mat, []).append(f"{mtype}:{fp}:{cs}:{scale}")
+    return {m: hashlib.sha1("|".join(v).encode()).hexdigest()[:8] for m, v in sig.items()}
+
+
+def export_maps(con, out_dir):
+    rows = con.execute("""
+        SELECT material_id, map_type, file_path, colorspace, uv_scale, notes
+        FROM material_maps ORDER BY material_id, map_type
+    """).fetchall()
+    path = os.path.join(out_dir, "material_maps.csv")
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["material_id", "map_type", "file_path", "colorspace", "uv_scale", "notes"])
+        w.writerows(rows)
+    return len(rows)
+
+
 def export_jobs(con, out_dir):
     rows = con.execute("""
         SELECT product_id, region_id, material_id, scene_file, camera,
@@ -89,13 +131,16 @@ def export_jobs(con, out_dir):
         ORDER BY product_id, z_order, material_id
     """).fetchall()
     cols = [d[0] for d in con.execute("SELECT * FROM v_render_jobs LIMIT 0").description]
+    sigs = maps_signatures(con)
     path = os.path.join(out_dir, "render_jobs.csv")
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(cols + ["key_sha1"])
         for r in rows:
             d = dict(zip(cols, r))
-            key = hashlib.sha1(d["hash_input"].encode()).hexdigest()[:12]
+            # la chiave del job include anche la firma delle map del materiale
+            key_input = d["hash_input"] + "|maps:" + sigs.get(d["material_id"], "none")
+            key = hashlib.sha1(key_input.encode()).hexdigest()[:12]
             w.writerow(list(r) + [key])
     return len(rows)
 
@@ -116,10 +161,14 @@ def main():
     for tbl in ("materials", "products", "product_regions"):
         c = con.execute(f"SELECT count(*) FROM {tbl}").fetchone()[0]
         print(f"  {tbl}: {c}")
+    nmap = con.execute("SELECT count(*) FROM material_maps").fetchone()[0]
+    print(f"  material_maps: {nmap}")
     print("Manifest:")
     nm = export_manifests(con, out_dir)
     nj = export_jobs(con, out_dir)
+    ne = export_maps(con, out_dir)
     print(f"Job di render (layer): {nj}  -> out/render_jobs.csv")
+    print(f"Mappe PBR esportate: {ne}  -> out/material_maps.csv")
     print(f"Manifest generati: {nm}  -> out/manifest_*.json")
     con.close()
 
