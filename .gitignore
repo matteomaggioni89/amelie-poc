@@ -1,0 +1,3 @@
+# Artefatti rigenerabili della pipeline PIM (build.py li ricrea)
+pipeline/*.db
+pipeline/out/
