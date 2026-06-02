@@ -73,14 +73,14 @@ def validate(con):
     """).fetchall()
     if no_base:
         print("ATTENZIONE: materiali usati senza map 'base_color':", [r[0] for r in no_base])
-    # coerenza colorspace: base_color/emission => sRGB, le altre => Non-Color
-    bad_cs = con.execute("""
-        SELECT material_id, map_type, colorspace FROM material_maps
-        WHERE (map_type IN ('base_color','emission') AND colorspace <> 'sRGB')
-           OR (map_type NOT IN ('base_color','emission') AND colorspace <> 'Non-Color')
+    # materiali usati e tileable ma senza dimensione reale (cm): scala fisica indefinita
+    no_tile = con.execute("""
+        SELECT DISTINCT j.material_id FROM v_render_jobs j
+        JOIN materials m ON m.material_id = j.material_id
+        WHERE m.tileable = 1 AND (m.tile_width_cm IS NULL OR m.tile_height_cm IS NULL)
     """).fetchall()
-    if bad_cs:
-        print("ATTENZIONE: colorspace incoerente con il tipo di map:", bad_cs)
+    if no_tile:
+        print("ATTENZIONE: materiali tileable senza tile_width_cm/height_cm:", [r[0] for r in no_tile])
 
 
 def export_manifests(con, out_dir):
@@ -97,27 +97,30 @@ def export_manifests(con, out_dir):
 
 
 def maps_signatures(con):
-    """Firma deterministica del set di map per ogni materiale: cambia se cambia
-    un path/colorspace/scala, così il job key rileva l'edit anche senza version bump."""
+    """Firma deterministica del 'render look' di ogni materiale: footprint reale
+    (cm) + set di map (tipo/path/colorspace/strength). Cambia se cambi una texture
+    o la scala fisica, così la job key rileva l'edit anche senza version bump."""
     sig = {}
-    rows = con.execute("""
-        SELECT material_id, map_type, file_path, colorspace, uv_scale
-        FROM material_maps ORDER BY material_id, map_type
-    """).fetchall()
-    for mat, mtype, fp, cs, scale in rows:
-        sig.setdefault(mat, []).append(f"{mtype}:{fp}:{cs}:{scale}")
+    for mat, w, h in con.execute("SELECT material_id, tile_width_cm, tile_height_cm FROM materials"):
+        sig[mat] = [f"tile:{w}x{h}"]
+    for mat, mtype, cs, fp, strength in con.execute("""
+            SELECT material_id, map_type, colorspace, file_path, strength
+            FROM v_material_maps ORDER BY material_id, map_type"""):
+        sig.setdefault(mat, []).append(f"{mtype}:{fp}:{cs}:{strength}")
     return {m: hashlib.sha1("|".join(v).encode()).hexdigest()[:8] for m, v in sig.items()}
 
 
 def export_maps(con, out_dir):
     rows = con.execute("""
-        SELECT material_id, map_type, file_path, colorspace, uv_scale, notes
-        FROM material_maps ORDER BY material_id, map_type
+        SELECT material_id, map_type, colorspace, file_path, strength,
+               tile_width_cm, tile_height_cm, tileable, notes
+        FROM v_material_maps ORDER BY material_id, map_type
     """).fetchall()
     path = os.path.join(out_dir, "material_maps.csv")
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["material_id", "map_type", "file_path", "colorspace", "uv_scale", "notes"])
+        w.writerow(["material_id", "map_type", "colorspace", "file_path", "strength",
+                    "tile_width_cm", "tile_height_cm", "tileable", "notes"])
         w.writerows(rows)
     return len(rows)
 

@@ -29,20 +29,33 @@ oppure aggiungi `INSERT` in un file seed tuo e passalo con `--seed`.
 
 ## Come compilare (ordine consigliato)
 1. `render_profile` — 1 riga (id=1) con le impostazioni di render.
-2. `material_categories` — i gruppi/tab (Nubuck, Legni, …).
-3. `materials` — i ~400 materiali condivisi (id stabile + `version`).
-4. `material_maps` — le texture PBR di ogni materiale (base_color/roughness/normal/…).
-5. `products` — i ~200 prodotti + contratto di scena (.blend, camera, res).
-6. `product_regions` — le regioni di ogni prodotto (`z_order`, `accepts_types`, default).
-7. `product_region_allowed_category` — quali categorie sono ammesse per regione.
-8. (opzionale) `product_region_material_override` — eccezioni include/exclude.
+2. `map_types` — i tipi di texture supportati (già pre-caricati; estendibile).
+3. `material_categories` — i gruppi/tab (Nubuck, Legni, …).
+4. `materials` — i ~400 materiali condivisi (id stabile, `version`, **footprint cm**).
+5. `material_maps` — le texture di ogni materiale (base_color/roughness/normal/bump/…).
+6. `products` — i ~200 prodotti + contratto di scena (.blend, camera, res).
+7. `product_regions` — le regioni di ogni prodotto (`z_order`, `accepts_types`, default).
+8. `product_region_allowed_category` — quali categorie sono ammesse per regione.
+9. (opzionale) `product_region_material_override` — eccezioni include/exclude.
 
 ### Libreria materiali condivisa
 `materials` è la libreria unica: un materiale è definito **una volta** e
 richiamato da più prodotti/regioni per `id` (es. `savana_1001` usato su `seat`
-e `piping`). `material_maps` (figlia, 1 materiale → N map) descrive l'aspetto
-che il worker Blender applica: una map per `(materiale, tipo)`, con `colorspace`
-(sRGB per base_color/emission, Non-Color per le map dati) e `uv_scale`.
+e `piping`).
+
+- **Scala fisica reale**: `materials.tile_width_cm` / `tile_height_cm` indicano
+  la dimensione reale (cm) che la texture rappresenta. Il worker Blender imposta
+  la scala del Mapping node come `UV_reali / footprint`, così il disegno della
+  texture esce nella misura corretta a prescindere dalla dimensione del modello.
+  `tileable=0` per texture non ripetibili (es. una stampa unica).
+- **`map_types`** è una lookup **estensibile** (aggiungere un tipo = inserire una
+  riga, niente `ALTER`): definisce il `colorspace` corretto una volta sola
+  (sRGB per base_color/emission, Non-Color per le map dati).
+- **`material_maps`** (1 materiale → N map): una map per `(materiale, tipo)`,
+  `file_path` + `strength` (intensità per normal/bump/displacement). Il colorspace
+  non si scrive a mano: deriva da `map_types`. Tipi inclusi: base_color, roughness,
+  metallic, **normal**, **bump**, ao, displacement, opacity, emission, specular,
+  sheen, clearcoat, transmission, subsurface.
 
 I materiali ammessi per ogni regione sono **calcolati** dalla vista
 `v_product_region_material` (categorie ammesse ∪ include − exclude, filtrati
@@ -51,9 +64,10 @@ per `accepts_types`): non vanno scritti a mano uno per uno.
 ## Delta / idempotenza
 - Il `?v=` del **manifest** usa `cache_token = s{scene_version}.m{material_version}.r{render_settings_version}`
   (leggibile, URL stabili): bump di `materials.version` ⇒ cambia solo per i layer che lo usano.
-- La **`key_sha1`** dei job (lato farm) include anche una **firma delle map** del
-  materiale: se cambi un `file_path`/`colorspace`/`uv_scale` la chiave cambia e la
-  farm rigenera **anche senza** ricordarsi di bumpare `version`.
+- La **`key_sha1`** dei job (lato farm) include una **firma del render look** del
+  materiale (footprint cm + set di map: tipo/path/colorspace/strength): se cambi
+  una texture o la scala fisica la chiave cambia e la farm rigenera **anche senza**
+  ricordarsi di bumpare `version`.
 
 ## Artefatti generati (`out/`)
 - `manifest_<product>.json` — manifest runtime a N regioni (frontend).
@@ -66,4 +80,4 @@ per `accepts_types`): non vanno scritti a mano uno per uno.
 - default di regione fuori dai materiali ammessi;
 - **occlusione mutua** tra regioni dinamiche (vincolo additivo, vedi `occluded_by`);
 - materiali usati senza map `base_color`;
-- `colorspace` incoerente col tipo di map.
+- materiali `tileable` senza `tile_width_cm`/`tile_height_cm` (scala fisica indefinita).

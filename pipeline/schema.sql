@@ -41,6 +41,9 @@ CREATE TABLE materials (
   category_id   TEXT NOT NULL REFERENCES material_categories(category_id),
   type          TEXT NOT NULL,                -- coerente con la categoria
   color_ref     TEXT,                         -- hex o Lab, per QA delta-E
+  tile_width_cm  REAL,                         -- dimensione REALE (cm) rappresentata dalla texture
+  tile_height_cm REAL,                         -- -> Blender scala il Mapping: UV_reali / footprint
+  tileable      INTEGER NOT NULL DEFAULT 1 CHECK (tileable IN (0,1)),
   swatch_path   TEXT NOT NULL,                -- thumbnail UI
   blender_asset TEXT NOT NULL,                -- id materiale/node-group nella libreria .blend
   version       INTEGER NOT NULL DEFAULT 1,   -- bump => rerender dei suoi usi
@@ -49,18 +52,29 @@ CREATE TABLE materials (
 CREATE INDEX idx_materials_category ON materials(category_id);
 
 -- ---------------------------------------------------------------------
--- A1-bis  material_maps : set di texture PBR per materiale (1 materiale -> N map)
+-- A1-ter  map_types : tipi di texture supportati (lookup ESTENSIBILE)
+--   Aggiungere un tipo = inserire una riga (nessun ALTER). Il colorspace
+--   corretto e' definito qui una volta sola; uses_strength=1 per le map la cui
+--   intensita' e' regolabile (normal/bump/displacement).
+-- ---------------------------------------------------------------------
+CREATE TABLE map_types (
+  map_type      TEXT PRIMARY KEY,
+  label         TEXT NOT NULL,
+  colorspace    TEXT NOT NULL CHECK (colorspace IN ('sRGB','Non-Color')),
+  uses_strength INTEGER NOT NULL DEFAULT 0 CHECK (uses_strength IN (0,1))
+);
+
+-- ---------------------------------------------------------------------
+-- A1-bis  material_maps : set di texture per materiale (1 materiale -> N map)
 --   Il DB pilota il look: il worker Blender carica queste texture nel materiale.
---   Una sola map per (materiale, tipo). Bump materials.version quando cambi una map.
+--   Una sola map per (materiale, tipo). Il colorspace deriva da map_types.
+--   strength = intensita' (normal/bump/displacement); ignorata per le altre.
 -- ---------------------------------------------------------------------
 CREATE TABLE material_maps (
   material_id TEXT NOT NULL REFERENCES materials(material_id) ON DELETE CASCADE,
-  map_type    TEXT NOT NULL CHECK (map_type IN (
-                 'base_color','roughness','metallic','normal','ao',
-                 'displacement','opacity','emission','specular','sheen','clearcoat')),
+  map_type    TEXT NOT NULL REFERENCES map_types(map_type),
   file_path   TEXT NOT NULL,
-  colorspace  TEXT NOT NULL DEFAULT 'Non-Color' CHECK (colorspace IN ('sRGB','Non-Color')),
-  uv_scale    REAL NOT NULL DEFAULT 1.0,
+  strength    REAL NOT NULL DEFAULT 1.0,
   notes       TEXT,
   PRIMARY KEY (material_id, map_type)
 );
@@ -181,6 +195,24 @@ JOIN products p         ON p.product_id = prm.product_id AND p.active = 1
 JOIN product_regions pr ON pr.product_id = prm.product_id AND pr.region_id = prm.region_id
 JOIN materials m        ON m.material_id = prm.material_id
 CROSS JOIN render_profile rp;
+
+-- Set di texture risolto per materiale: colorspace dal tipo, footprint reale
+-- dal materiale. E' cio' che il worker Blender consuma per costruire il materiale.
+CREATE VIEW v_material_maps AS
+SELECT
+  mm.material_id,
+  mm.map_type,
+  mt.colorspace,
+  mt.uses_strength,
+  mm.file_path,
+  mm.strength,
+  m.tile_width_cm,
+  m.tile_height_cm,
+  m.tileable,
+  mm.notes
+FROM material_maps mm
+JOIN map_types mt ON mt.map_type = mm.map_type
+JOIN materials m  ON m.material_id = mm.material_id;
 
 -- Item di manifest (1:1 coi job), con URL del layer gia' cache-bustato.
 CREATE VIEW v_manifest_item AS
