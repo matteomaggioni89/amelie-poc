@@ -167,7 +167,7 @@ def export_jobs(con, out_dir):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--db", default=os.path.join(HERE, "amelie_pim.db"))
+    ap.add_argument("--db", default=os.path.join(HERE, "pim.db"))
     ap.add_argument("--seed", default="seed_amelie.sql")
     ap.add_argument("--reset", action="store_true",
                     help="ricrea il DB da schema+seed (DISTRUTTIVO)")

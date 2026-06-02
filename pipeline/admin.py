@@ -3,7 +3,7 @@
 Mini web-admin (senza dipendenze) per la libreria materiali.
 Avvio:
     python3 admin.py            # poi apri http://localhost:8765
-Scrive direttamente in amelie_pim.db (categorie, materiali, mappe).
+Scrive direttamente in pim.db (categorie, materiali, mappe).
 Dopo le modifiche, lancia `python3 build.py` per rigenerare manifest e job.
 """
 import json, os, sqlite3, webbrowser
@@ -12,7 +12,7 @@ from urllib.parse import urlparse, parse_qs
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)               # repo root: serve swatches/ textures/
-DB = os.path.join(HERE, "amelie_pim.db")
+DB = os.path.join(HERE, "pim.db")
 PORT = 8765
 
 # tipi di map standard (idempotente: garantisce i menu' a tendina)

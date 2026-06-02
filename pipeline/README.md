@@ -17,7 +17,7 @@ additivi. Da qui si generano in automatico:
 | `manifest_query.sql` | query SQL che assembla il manifest JSON a N regioni |
 | `admin.py` + `admin.html` | **mini web-admin** per inserire materiali e categorie |
 | `build.py` | valida il `.db` ed esporta manifest + job (non lo sovrascrive) |
-| `amelie_pim.db` | **il DB portable** (la fonte dei dati; ignorato da git) |
+| `pim.db` | **il DB portable** (la fonte dei dati; ignorato da git) |
 | `out/` | artefatti generati: `manifest_*.json`, `render_jobs.csv`, `material_maps.csv` |
 
 ## Inserire i dati — web-admin (consigliato)
@@ -25,10 +25,10 @@ additivi. Da qui si generano in automatico:
 python3 admin.py          # apre http://localhost:8765
 ```
 Interfaccia con menù a tendina e validazioni per **categorie** e **materiali**
-(con le relative texture). Scrive direttamente in `amelie_pim.db`. Nessuna
+(con le relative texture). Scrive direttamente in `pim.db`. Nessuna
 dipendenza: solo Python standard. Se il DB non esiste lo crea vuoto.
 
-In alternativa puoi editare `amelie_pim.db` con **DB Browser for SQLite**/DBeaver,
+In alternativa puoi editare `pim.db` con **DB Browser for SQLite**/DBeaver,
 o aggiungere `INSERT` in un file seed e passarlo con `--seed`.
 
 ## Generare gli artefatti
