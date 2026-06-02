@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amelie · Admin materiali</title>
+<style>
+  :root { --bd:#dcdcdc; --mut:#666; --acc:#E30713; --bg:#fafafa; }
+  * { box-sizing: border-box; }
+  body { font: 14px/1.45 system-ui, sans-serif; margin: 0; color:#222; background:var(--bg); }
+  header { background:#fff; border-bottom:1px solid var(--bd); padding:12px 18px; display:flex; gap:14px; align-items:baseline; position:sticky; top:0; z-index:2;}
+  header h1 { font-size:16px; margin:0; }
+  header .db { color:var(--mut); font-size:12px; }
+  header .hint { margin-left:auto; color:var(--mut); font-size:12px; }
+  main { display:grid; grid-template-columns: 360px 1fr; gap:16px; padding:16px; align-items:start; }
+  .card { background:#fff; border:1px solid var(--bd); border-radius:8px; padding:14px; margin-bottom:16px; }
+  .card h2 { font-size:14px; margin:0 0 10px; text-transform:uppercase; letter-spacing:.04em; color:#333; }
+  label { display:block; font-size:12px; color:var(--mut); margin:8px 0 2px; }
+  input, select { width:100%; padding:7px 8px; border:1px solid var(--bd); border-radius:6px; font:inherit; background:#fff; }
+  input[type=checkbox] { width:auto; }
+  .row { display:flex; gap:8px; } .row > * { flex:1; }
+  .btn { display:inline-block; padding:7px 12px; border:1px solid var(--bd); border-radius:6px; background:#fff; cursor:pointer; font:inherit; }
+  .btn:hover { border-color:#999; }
+  .btn.primary { background:var(--acc); color:#fff; border-color:var(--acc); }
+  .btn.sm { padding:3px 8px; font-size:12px; }
+  .btn.del { color:#b00; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid #eee; font-size:13px; }
+  th { color:var(--mut); font-weight:600; font-size:11px; text-transform:uppercase; }
+  tr.sel { background:#fff3f3; }
+  tr.clk { cursor:pointer; } tr.clk:hover { background:#f6f6f6; }
+  .pill { font-size:11px; padding:1px 7px; border-radius:999px; background:#eee; color:#444; }
+  .warn { background:#fff7e6; border:1px solid #ffd591; color:#8a5a00; padding:8px 10px; border-radius:6px; font-size:12px; margin-top:10px; }
+  .swatch { width:30px; height:30px; border-radius:5px; border:1px solid var(--bd); object-fit:cover; vertical-align:middle; }
+  .muted { color:var(--mut); font-size:12px; }
+  .toolbar { display:flex; gap:8px; align-items:center; margin-bottom:10px; }
+  .toolbar select { width:auto; }
+  .ro { background:#f3f3f3; color:#555; }
+  .toast { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:9px 16px; border-radius:8px; font-size:13px; opacity:0; transition:opacity .2s; pointer-events:none; }
+  .toast.show { opacity:1; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Amelie · Admin materiali</h1>
+  <span class="db" id="dbinfo"></span>
+  <span class="hint">Dopo le modifiche: <code>python3 build.py</code> per rigenerare manifest e job</span>
+</header>
+
+<main>
+  <!-- COLONNA SINISTRA: categorie + lista materiali -->
+  <div>
+    <div class="card">
+      <h2>Raggruppamenti (categorie)</h2>
+      <table><thead><tr><th>id</th><th>etichetta</th><th>tipo</th><th>#</th><th></th></tr></thead>
+        <tbody id="catRows"></tbody></table>
+      <hr style="border:none;border-top:1px solid #eee;margin:12px 0">
+      <div class="muted">Aggiungi / modifica categoria</div>
+      <div class="row"><div><label>id</label><input id="c_id" placeholder="nubuck"></div>
+        <div><label>etichetta</label><input id="c_label" placeholder="Nubuck"></div></div>
+      <div class="row"><div><label>tipo</label><select id="c_type"></select></div>
+        <div><label>ordine</label><input id="c_sort" type="number" value="0"></div></div>
+      <div style="margin-top:10px"><button class="btn primary" onclick="saveCat()">Salva categoria</button></div>
+    </div>
+
+    <div class="card">
+      <h2>Materiali</h2>
+      <div class="toolbar">
+        <select id="filterCat" onchange="renderMatList()"><option value="">Tutte le categorie</option></select>
+        <button class="btn sm" onclick="newMaterial()">+ Nuovo</button>
+      </div>
+      <table><thead><tr><th></th><th>id</th><th>etichetta</th><th>cm</th></tr></thead>
+        <tbody id="matRows"></tbody></table>
+    </div>
+  </div>
+
+  <!-- COLONNA DESTRA: editor materiale + mappe -->
+  <div class="card" id="editor">
+    <h2 id="edTitle">Materiale</h2>
+    <div id="edBody" class="muted">Seleziona un materiale a sinistra, o premi “+ Nuovo”.</div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TYPES = ["leather","fabric","wood","lacquer","metal"];
+let DATA = { categories:[], map_types:[], materials:[] };
+let curId = null; // material_id selezionato
+
+const $ = s => document.querySelector(s);
+const api = async (m, url, body) => {
+  const r = await fetch(url, { method:m, headers:{'Content-Type':'application/json'}, body: body && JSON.stringify(body) });
+  const j = await r.json().catch(()=>({}));
+  if (!r.ok || j.ok === false) throw new Error(j.error || ('HTTP '+r.status));
+  return j;
+};
+const toast = (msg) => { const t=$('#toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1600); };
+const colorspaceOf = t => (DATA.map_types.find(x=>x.map_type===t)||{}).colorspace || '';
+const usesStrength = t => !!((DATA.map_types.find(x=>x.map_type===t)||{}).uses_strength);
+
+async function load() {
+  DATA = await api('GET','/api/bootstrap');
+  // dropdown tipi categoria
+  $('#c_type').innerHTML = TYPES.map(t=>`<option>${t}</option>`).join('');
+  // filtro categoria
+  $('#filterCat').innerHTML = '<option value="">Tutte le categorie</option>' +
+    DATA.categories.map(c=>`<option value="${c.category_id}">${c.label}</option>`).join('');
+  renderCats(); renderMatList();
+  if (curId && DATA.materials.some(m=>m.material_id===curId)) editMaterial(curId); else $('#edBody').innerHTML = '<div class="muted">Seleziona un materiale, o premi “+ Nuovo”.</div>';
+}
+
+function renderCats() {
+  const count = id => DATA.materials.filter(m=>m.category_id===id).length;
+  $('#catRows').innerHTML = DATA.categories.map(c=>`
+    <tr><td><code>${c.category_id}</code></td><td>${esc(c.label)}</td>
+      <td><span class="pill">${c.type}</span></td><td>${count(c.category_id)}</td>
+      <td style="text-align:right">
+        <button class="btn sm" onclick="editCat('${c.category_id}')">✎</button>
+        <button class="btn sm del" onclick="delCat('${c.category_id}')">🗑</button></td></tr>`).join('')
+    || '<tr><td colspan="5" class="muted">Nessuna categoria</td></tr>';
+}
+function editCat(id){ const c=DATA.categories.find(x=>x.category_id===id);
+  $('#c_id').value=c.category_id; $('#c_label').value=c.label; $('#c_type').value=c.type; $('#c_sort').value=c.sort_order; }
+async function saveCat(){
+  const d={category_id:$('#c_id').value.trim(),label:$('#c_label').value.trim(),type:$('#c_type').value,sort_order:$('#c_sort').value};
+  if(!d.category_id||!d.label){toast('id ed etichetta obbligatori');return;}
+  try{ await api('POST','/api/category',d); toast('categoria salvata'); $('#c_id').value=$('#c_label').value=''; await load(); }catch(e){alert(e.message);}
+}
+async function delCat(id){ if(!confirm('Eliminare la categoria '+id+'?'))return;
+  try{ await api('DELETE','/api/category?id='+encodeURIComponent(id)); toast('eliminata'); await load(); }catch(e){alert(e.message);} }
+
+function renderMatList(){
+  const f=$('#filterCat').value;
+  const rows=DATA.materials.filter(m=>!f||m.category_id===f);
+  $('#matRows').innerHTML = rows.map(m=>`
+    <tr class="clk ${m.material_id===curId?'sel':''}" onclick="editMaterial('${m.material_id}')">
+      <td>${m.swatch_path?`<img class="swatch" src="/${m.swatch_path}" onerror="this.style.visibility='hidden'">`:''}</td>
+      <td><code>${m.material_id}</code></td><td>${esc(m.label)}</td>
+      <td class="muted">${m.tile_width_cm?`${m.tile_width_cm}×${m.tile_height_cm}`:'—'}</td></tr>`).join('')
+    || '<tr><td colspan="4" class="muted">Nessun materiale</td></tr>';
+}
+
+function newMaterial(){ curId=null; renderMatList(); renderEditor({tileable:1,active:1,version:1}); }
+
+function editMaterial(id){ curId=id; renderMatList(); renderEditor(DATA.materials.find(m=>m.material_id===id)); }
+
+function renderEditor(m){
+  m = m || {tileable:1,active:1,version:1};
+  const isNew = !m.material_id;
+  $('#edTitle').textContent = isNew ? 'Nuovo materiale' : 'Materiale · '+m.material_id;
+  const catOpts = DATA.categories.map(c=>`<option value="${c.category_id}" ${c.category_id===m.category_id?'selected':''}>${c.label} (${c.type})</option>`).join('');
+  const typeOpts = TYPES.map(t=>`<option ${t===m.type?'selected':''}>${t}</option>`).join('');
+  $('#edBody').innerHTML = `
+    <div class="row">
+      <div><label>material_id ${isNew?'':'(non modificabile)'}</label>
+        <input id="m_id" value="${attr(m.material_id)}" ${isNew?'':'class="ro" readonly'} placeholder="nubuck_2138"></div>
+      <div><label>etichetta</label><input id="m_label" value="${attr(m.label)}" placeholder="Nubuck 2138"></div>
+    </div>
+    <div class="row">
+      <div><label>categoria</label><select id="m_cat" onchange="onCatChange()">${catOpts}</select></div>
+      <div><label>tipo</label><select id="m_type">${typeOpts}</select></div>
+    </div>
+    <div class="row">
+      <div><label>colore (hex)</label><input id="m_color" type="text" value="${attr(m.color_ref)}" placeholder="#2b2b2b"></div>
+      <div><label>larghezza reale (cm)</label><input id="m_tw" type="number" step="0.1" value="${attr(m.tile_width_cm)}"></div>
+      <div><label>altezza reale (cm)</label><input id="m_th" type="number" step="0.1" value="${attr(m.tile_height_cm)}"></div>
+    </div>
+    <div class="row">
+      <div><label>swatch (path)</label><input id="m_swatch" value="${attr(m.swatch_path)}" placeholder="swatches/leather_nubuck_2138.jpg"></div>
+      <div><label>blender_asset</label><input id="m_asset" value="${attr(m.blender_asset)}" placeholder="MATLIB.nubuck_2138"></div>
+    </div>
+    <div class="row">
+      <div><label>versione</label><input id="m_ver" type="number" value="${m.version||1}"></div>
+      <div><label>tileable</label><br><input id="m_tileable" type="checkbox" ${m.tileable?'checked':''}> ripetibile</div>
+      <div><label>attivo</label><br><input id="m_active" type="checkbox" ${m.active?'checked':''}> visibile</div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn primary" onclick="saveMaterial()">Salva materiale</button>
+      ${isNew?'':`<button class="btn del" onclick="delMaterial('${m.material_id}')">Elimina</button>`}
+    </div>
+    <div id="matWarn"></div>
+    ${isNew ? '<p class="muted" style="margin-top:14px">Salva il materiale per poter aggiungere le texture.</p>' : renderMaps(m)}`;
+  matWarnings(m);
+}
+
+function onCatChange(){ // auto-allinea il tipo del materiale a quello della categoria
+  const c = DATA.categories.find(x=>x.category_id===$('#m_cat').value);
+  if (c) $('#m_type').value = c.type;
+}
+
+function renderMaps(m){
+  const rows=(m.maps||[]).map(x=>`
+    <tr><td><span class="pill">${x.map_type}</span></td>
+      <td><code>${esc(x.file_path)}</code></td>
+      <td class="muted">${colorspaceOf(x.map_type)}</td>
+      <td>${usesStrength(x.map_type)?x.strength:'—'}</td>
+      <td style="text-align:right"><button class="btn sm del" onclick="delMap('${m.material_id}','${x.map_type}')">🗑</button></td></tr>`).join('');
+  const opts=DATA.map_types.map(t=>`<option value="${t.map_type}">${t.label} · ${t.colorspace}</option>`).join('');
+  return `<div class="card" style="margin-top:16px;background:#fcfcfc">
+    <h2>Texture / mappe</h2>
+    <table><thead><tr><th>tipo</th><th>file</th><th>colorspace</th><th>strength</th><th></th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="5" class="muted">Nessuna texture</td></tr>'}</tbody></table>
+    <div class="row" style="margin-top:10px;align-items:end">
+      <div style="flex:1.2"><label>tipo map</label><select id="mp_type" onchange="mpHint()">${opts}</select></div>
+      <div style="flex:3"><label>file (path)</label><input id="mp_file" placeholder="textures/leather/${m.material_id}/base_color.jpg"></div>
+      <div><label>strength</label><input id="mp_str" type="number" step="0.1" value="1.0"></div>
+      <div style="flex:0 0 auto"><button class="btn" onclick="saveMap('${m.material_id}')">+ Aggiungi</button></div>
+    </div>
+    <div class="muted" id="mpHint" style="margin-top:6px"></div></div>`;
+}
+function mpHint(){ const t=$('#mp_type').value;
+  $('#mpHint').textContent = `colorspace: ${colorspaceOf(t)}${usesStrength(t)?' · strength usata':' · strength ignorata'}`; }
+
+function matWarnings(m){
+  const w=[];
+  const maps=(m.maps||[]);
+  if (m.material_id && !maps.some(x=>x.map_type==='base_color')) w.push('Manca la map base_color.');
+  if ((m.tileable??1) && (!m.tile_width_cm||!m.tile_height_cm)) w.push('Tileable senza misura reale (cm): scala fisica indefinita.');
+  const el=$('#matWarn'); if(!el)return;
+  el.innerHTML = w.length?`<div class="warn">⚠ ${w.join(' ')}</div>`:'';
+}
+
+async function saveMaterial(){
+  const d={ material_id:$('#m_id').value.trim(), label:$('#m_label').value.trim(),
+    category_id:$('#m_cat').value, type:$('#m_type').value, color_ref:$('#m_color').value.trim(),
+    tile_width_cm:$('#m_tw').value, tile_height_cm:$('#m_th').value,
+    swatch_path:$('#m_swatch').value.trim(), blender_asset:$('#m_asset').value.trim(),
+    version:$('#m_ver').value, tileable:$('#m_tileable').checked?1:0, active:$('#m_active').checked?1:0 };
+  if(!d.material_id||!d.label){toast('id ed etichetta obbligatori');return;}
+  try{ await api('POST','/api/material',d); curId=d.material_id; toast('materiale salvato'); await load(); }catch(e){alert(e.message);}
+}
+async function delMaterial(id){ if(!confirm('Eliminare il materiale '+id+'?'))return;
+  try{ await api('DELETE','/api/material?id='+encodeURIComponent(id)); curId=null; toast('eliminato'); await load(); }catch(e){alert(e.message);} }
+
+async function saveMap(mid){
+  const d={material_id:mid, map_type:$('#mp_type').value, file_path:$('#mp_file').value.trim(), strength:$('#mp_str').value};
+  if(!d.file_path){toast('inserisci il path del file');return;}
+  try{ await api('POST','/api/map',d); toast('texture aggiunta'); await load(); }catch(e){alert(e.message);} }
+async function delMap(mid,mtype){ try{ await api('DELETE',`/api/map?material_id=${encodeURIComponent(mid)}&map_type=${encodeURIComponent(mtype)}`); toast('rimossa'); await load(); }catch(e){alert(e.message);} }
+
+const esc = s => (s==null?'':String(s)).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const attr = s => (s==null?'':String(s)).replace(/"/g,'&quot;');
+
+load().then(()=>{ $('#dbinfo').textContent='amelie_pim.db'; });
+</script>
+</body>
+</html>

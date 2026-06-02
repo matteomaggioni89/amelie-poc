@@ -15,17 +15,31 @@ additivi. Da qui si generano in automatico:
 | `schema.sql` | DDL: tabelle, vincoli (FK/CHECK), viste di espansione |
 | `seed_amelie.sql` | dati di esempio (Amelie, 3 regioni) da estendere |
 | `manifest_query.sql` | query SQL che assembla il manifest JSON a N regioni |
-| `build.py` | costruisce il `.db`, valida, esporta manifest + job |
-| `amelie_pim.db` | **il DB portable** (rigenerabile con `build.py`) |
-| `out/` | artefatti generati: `manifest_*.json`, `render_jobs.csv` |
+| `admin.py` + `admin.html` | **mini web-admin** per inserire materiali e categorie |
+| `build.py` | valida il `.db` ed esporta manifest + job (non lo sovrascrive) |
+| `amelie_pim.db` | **il DB portable** (la fonte dei dati; ignorato da git) |
+| `out/` | artefatti generati: `manifest_*.json`, `render_jobs.csv`, `material_maps.csv` |
 
-## Uso
+## Inserire i dati — web-admin (consigliato)
 ```bash
-python3 build.py          # ricrea amelie_pim.db da schema+seed e rigenera out/
+python3 admin.py          # apre http://localhost:8765
 ```
-Per popolare i dati in modo strutturato apri `amelie_pim.db` con un qualsiasi
-editor SQLite (es. **DB Browser for SQLite**, DBeaver) e compila le tabelle,
-oppure aggiungi `INSERT` in un file seed tuo e passalo con `--seed`.
+Interfaccia con menù a tendina e validazioni per **categorie** e **materiali**
+(con le relative texture). Scrive direttamente in `amelie_pim.db`. Nessuna
+dipendenza: solo Python standard. Se il DB non esiste lo crea vuoto.
+
+In alternativa puoi editare `amelie_pim.db` con **DB Browser for SQLite**/DBeaver,
+o aggiungere `INSERT` in un file seed e passarlo con `--seed`.
+
+## Generare gli artefatti
+```bash
+python3 build.py          # usa il DB ESISTENTE, rigenera out/ (NON sovrascrive)
+python3 build.py --reset  # ricrea il DB da schema+seed (DISTRUTTIVO, per demo/dev)
+python3 build.py --dump   # esporta anche data.sql (backup testuale versionabile)
+```
+> Il `.db` è ignorato da git perché diventa la fonte dati viva (editata
+> dall'admin). Per versionarlo/salvarlo come testo usa `--dump`: `data.sql`
+> ricostruisce il DB ed è diff-abile.
 
 ## Come compilare (ordine consigliato)
 1. `render_profile` — 1 riga (id=1) con le impostazioni di render.

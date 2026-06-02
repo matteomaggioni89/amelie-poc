@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 """
-Compila il DB PIM portable (SQLite) da schema.sql + seed, lo valida e
-genera gli artefatti derivati: manifest runtime per prodotto e lista job.
+Genera gli artefatti derivati dal DB PIM (manifest runtime + lista job) e lo
+valida. Di default NON sovrascrive il DB: se esiste lo usa com'e' (cosi' i dati
+inseriti dall'admin sono al sicuro); se manca, lo inizializza da schema + seed.
 
 Uso:
-  python3 build.py [--db amelie_pim.db] [--seed seed_amelie.sql]
+  python3 build.py                 # usa il DB esistente, rigenera out/
+  python3 build.py --reset         # ricrea il DB da schema+seed (DISTRUTTIVO)
+  python3 build.py --dump          # esporta anche data.sql (backup versionabile)
 
 Output (in pipeline/out/):
   manifest_<product>.json   - manifest runtime a N regioni (per il frontend)
   render_jobs.csv           - 1 riga per layer da renderizzare (per la farm)
+  material_maps.csv         - set texture per materiale (per il worker Blender)
 """
 import argparse, csv, hashlib, json, os, sqlite3, sys
 
@@ -20,15 +24,28 @@ def run_script(con, path):
         con.executescript(f.read())
 
 
-def build(db_path, seed):
-    if os.path.exists(db_path):
+def open_db(db_path, seed, reset):
+    """Apre il DB. Lo crea da schema+seed solo se manca (o se --reset)."""
+    fresh = reset or not os.path.exists(db_path)
+    if reset and os.path.exists(db_path):
         os.remove(db_path)
     con = sqlite3.connect(db_path)
     con.execute("PRAGMA foreign_keys = ON;")
-    run_script(con, "schema.sql")
-    run_script(con, seed)
-    con.commit()
+    if fresh:
+        run_script(con, "schema.sql")
+        run_script(con, seed)
+        con.commit()
+        print(f"[build] DB inizializzato da schema + {seed}")
+    else:
+        print("[build] uso il DB esistente (nessuna sovrascrittura)")
     return con
+
+
+def dump_sql(con, path):
+    """Backup testuale versionabile: l'intero DB come istruzioni SQL."""
+    with open(path, "w", encoding="utf-8") as f:
+        for line in con.iterdump():
+            f.write(line + "\n")
 
 
 def validate(con):
@@ -152,9 +169,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default=os.path.join(HERE, "amelie_pim.db"))
     ap.add_argument("--seed", default="seed_amelie.sql")
+    ap.add_argument("--reset", action="store_true",
+                    help="ricrea il DB da schema+seed (DISTRUTTIVO)")
+    ap.add_argument("--dump", action="store_true",
+                    help="esporta anche data.sql (backup testuale versionabile)")
     args = ap.parse_args()
 
-    con = build(args.db, args.seed)
+    con = open_db(args.db, args.seed, args.reset)
     validate(con)
 
     out_dir = os.path.join(HERE, "out")
@@ -173,6 +194,9 @@ def main():
     print(f"Job di render (layer): {nj}  -> out/render_jobs.csv")
     print(f"Mappe PBR esportate: {ne}  -> out/material_maps.csv")
     print(f"Manifest generati: {nm}  -> out/manifest_*.json")
+    if args.dump:
+        dump_sql(con, os.path.join(HERE, "data.sql"))
+        print("Backup: data.sql")
     con.close()
 
 
