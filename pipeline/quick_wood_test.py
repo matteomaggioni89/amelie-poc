@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """
-quick_wood_test.py — TEST RAPIDO (nessun DB): applica una serie di materiali
-"legno" a una parte del tavolo Talento e renderizza un PNG per ciascuno.
+quick_wood_test.py — TEST RAPIDO (nessun DB): fa scorrere le texture-legno di
+una cartella sul materiale del tavolo Talento e renderizza un PNG per ciascuna.
 
 Eseguire DENTRO Blender (scheda Scripting -> Run, oppure blender -b ... -P ...).
 
-COME USARLO
-  1) Lancialo una prima volta SENZA configurare nulla: stampa l'elenco di
-     oggetti mesh (con i loro slot materiale) e dei materiali presenti, poi esce.
-  2) Compila il blocco CONFIG qui sotto con i nomi giusti e rilancialo.
+Di default prova ad AUTO-rilevare il materiale-legno. Se non riesce (o se ci
+sono piu' materiali con texture) stampa l'elenco e si ferma: in quel caso
+imposta MATERIAL_NAME (o OBJECT_NAME) qui sotto e rilancia.
 """
 import os
 try:
@@ -16,67 +15,98 @@ try:
 except ImportError:
     raise SystemExit("Va eseguito dentro Blender (modulo bpy assente).")
 
-# ======================= CONFIG (compila questi) =======================
-TABLE_OBJECT = ""        # nome dell'oggetto la cui finitura cambia (es. "Piano").
-                          # Lascia "" per la modalita' SCOPERTA (elenca e esce).
-SLOT_INDEX   = 0          # quale slot materiale dell'oggetto sostituire.
+# ============================ CONFIG ============================
+TEXTURE_DIR  = r"C:\Users\matteomaggioni\poc config\textures\LEGNI ALPI"
 
-# I materiali-legno da provare. Devono ESSERE i nomi dei materiali:
-#  - gia' presenti in talento.blend, OPPURE
-#  - presenti nel file LIBRARY_BLEND qui sotto (verranno importati).
-WOODS = ["10_41", "10_32", "10_16", "10_74", "11_05", "11_06", "l22_231z"]
+MATERIAL_NAME = ""    # forza il materiale da modificare (vuoto = auto-rileva)
+OBJECT_NAME   = ""    # in alternativa: oggetto del tavolo...
+SLOT_INDEX    = 0     # ...e quale suo slot materiale
 
-LIBRARY_BLEND = r""       # es: r"C:\Users\matteomaggioni\poc config\blender\amelie.blend"
-                          # Lascia "" se i materiali sono gia' dentro talento.blend.
-
-OUT_DIR     = r""         # cartella output PNG. Lascia "" = sottocartella "render_test"
-                          # accanto al .blend.
-TRANSPARENT = True        # sfondo trasparente (come i layer del configuratore).
-SAMPLES     = 0           # 0 = lascia invariato; es. 64 per un test piu' veloce.
-# =======================================================================
+OUT_DIR     = ""      # vuoto = sottocartella "render_test" accanto al .blend
+TRANSPARENT = True    # sfondo trasparente (come i layer del configuratore)
+SAMPLES     = 0       # 0 = invariato; es. 64 per render piu' veloci (Cycles)
+IMAGE_EXTS  = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp", ".exr")
+# ================================================================
 
 
-def discover():
-    print("\n===== SCOPERTA (configura poi TABLE_OBJECT/WOODS e rilancia) =====")
-    print("Oggetti mesh e relativi slot materiale:")
+def list_textures():
+    if not os.path.isdir(TEXTURE_DIR):
+        return []
+    return sorted(f for f in os.listdir(TEXTURE_DIR)
+                  if f.lower().endswith(IMAGE_EXTS))
+
+
+def textured_materials():
+    """Materiali (usati da mesh) che contengono almeno un nodo immagine."""
+    found = {}
+    for o in bpy.data.objects:
+        if o.type != 'MESH':
+            continue
+        for s in o.material_slots:
+            m = s.material
+            if m and m.use_nodes and any(n.type == 'TEX_IMAGE' for n in m.node_tree.nodes):
+                found.setdefault(m.name, m)
+    return found
+
+
+def basecolor_node(mat):
+    nt = mat.node_tree
+    bsdf = next((n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED'), None)
+    if bsdf:
+        inp = bsdf.inputs.get('Base Color')
+        if inp and inp.is_linked:
+            src = inp.links[0].from_node
+            if src.type == 'TEX_IMAGE':
+                return src
+    return next((n for n in nt.nodes if n.type == 'TEX_IMAGE'), None)
+
+
+def resolve_material():
+    if MATERIAL_NAME:
+        return bpy.data.materials.get(MATERIAL_NAME)
+    if OBJECT_NAME:
+        o = bpy.data.objects.get(OBJECT_NAME)
+        if o and SLOT_INDEX < len(o.material_slots):
+            return o.material_slots[SLOT_INDEX].material
+        return None
+    cand = textured_materials()
+    return list(cand.values())[0] if len(cand) == 1 else None
+
+
+def discover(textures):
+    print("\n===== SCOPERTA =====")
+    print(f"Cartella texture: {TEXTURE_DIR}")
+    print(f"  texture trovate: {len(textures)}")
+    for t in textures:
+        print(f"    - {t}")
+    print("Materiali con texture (candidati per il legno):")
+    for name in textured_materials():
+        print(f"    - {name}")
+    print("Oggetti mesh e slot:")
     for o in bpy.data.objects:
         if o.type != 'MESH':
             continue
         slots = ", ".join(f"[{i}]{s.material.name if s.material else None}"
                           for i, s in enumerate(o.material_slots)) or "(nessuno slot)"
-        print(f"   - {o.name}: {slots}")
-    print("Materiali presenti nel file:")
-    for m in bpy.data.materials:
-        if m.users:
-            print(f"   - {m.name}")
-    print("=================================================================\n")
-
-
-def get_material(name):
-    """Restituisce il materiale: dal file corrente o importato da LIBRARY_BLEND."""
-    if name in bpy.data.materials:
-        return bpy.data.materials[name]
-    if LIBRARY_BLEND:
-        with bpy.data.libraries.load(LIBRARY_BLEND, link=False) as (src, dst):
-            if name in src.materials:
-                dst.materials = [name]
-        if name in bpy.data.materials:
-            return bpy.data.materials[name]
-    return None
+        print(f"    - {o.name}: {slots}")
+    print("Imposta MATERIAL_NAME (o OBJECT_NAME) e rilancia.\n====================\n")
 
 
 def main():
-    if not TABLE_OBJECT:
-        discover()
+    textures = list_textures()
+    if not textures:
+        print(f"ERRORE: nessuna immagine in '{TEXTURE_DIR}'. Controlla il percorso.")
         return
 
-    obj = bpy.data.objects.get(TABLE_OBJECT)
-    if not obj:
-        print(f"ERRORE: oggetto '{TABLE_OBJECT}' non trovato. Usa la modalita' scoperta.")
+    mat = resolve_material()
+    if not mat:
+        print("Non sono riuscito a scegliere il materiale-legno da solo.")
+        discover(textures)
         return
-    if SLOT_INDEX >= len(obj.material_slots):
-        print(f"ERRORE: lo slot {SLOT_INDEX} non esiste su '{TABLE_OBJECT}' "
-              f"(slot disponibili: {len(obj.material_slots)}).")
+
+    node = basecolor_node(mat)
+    if not node:
+        print(f"ERRORE: nel materiale '{mat.name}' non c'e' un nodo Image Texture.")
         return
 
     scene = bpy.context.scene
@@ -90,24 +120,18 @@ def main():
     out_dir = OUT_DIR or os.path.join(os.path.dirname(base), "render_test")
     os.makedirs(out_dir, exist_ok=True)
 
-    print(f"\nOggetto: {TABLE_OBJECT}  slot {SLOT_INDEX}  -> {out_dir}")
-    done, skipped = 0, []
-    for w in WOODS:
-        mat = get_material(w)
-        if not mat:
-            skipped.append(w)
-            print(f"   ! '{w}' non trovato (ne' nel file ne' in LIBRARY_BLEND) - salto")
-            continue
-        obj.material_slots[SLOT_INDEX].material = mat
-        scene.render.filepath = os.path.join(out_dir, f"talento__{w}.png")
-        print(f"   render: {w} ...")
+    print(f"\nMateriale: '{mat.name}'  | nodo immagine: '{node.name}'  -> {out_dir}")
+    for i, fname in enumerate(textures, 1):
+        path = os.path.join(TEXTURE_DIR, fname)
+        img = bpy.data.images.load(path, check_existing=True)
+        img.colorspace_settings.name = 'sRGB'   # base color = sRGB
+        node.image = img
+        stem = os.path.splitext(fname)[0].replace(" ", "_")
+        scene.render.filepath = os.path.join(out_dir, f"talento__{stem}.png")
+        print(f"   [{i}/{len(textures)}] render {fname} ...")
         bpy.ops.render.render(write_still=True)
-        done += 1
 
-    print(f"\nFatto: {done} render in {out_dir}")
-    if skipped:
-        print(f"Saltati (materiale non trovato): {', '.join(skipped)}")
-    print("Apri i PNG per confrontare le finiture.\n")
+    print(f"\nFatto: {len(textures)} render in {out_dir}\nApri i PNG per confrontare le finiture.\n")
 
 
 if __name__ == "__main__":
