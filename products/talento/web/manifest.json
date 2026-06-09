@@ -1,0 +1,1038 @@
+{
+  "product": "Talento",
+  "type": "table",
+  "scene": {
+    "base": "base.webp",
+    "width": 2560,
+    "height": 1810
+  },
+  "compositing": "base + over(top, big_a, big_b, small)",
+  "layer_format": "webp",
+  "groups": [
+    {
+      "id": "top",
+      "label": "Piano",
+      "z": 4,
+      "options": [
+        {
+          "id": "top__wood_10_61",
+          "kind": "wood",
+          "label": "ALPI 10.61",
+          "swatch": "../../../shared/swatches/wood_10_61.jpg",
+          "layer": "layers/top__wood_10_61.webp"
+        },
+        {
+          "id": "top__wood_10_74",
+          "kind": "wood",
+          "label": "ALPI 10.74",
+          "swatch": "../../../shared/swatches/wood_10_74.jpg",
+          "layer": "layers/top__wood_10_74.webp"
+        },
+        {
+          "id": "top__wood_10_88",
+          "kind": "wood",
+          "label": "ALPI 10.88",
+          "swatch": "../../../shared/swatches/wood_10_88.jpg",
+          "layer": "layers/top__wood_10_88.webp"
+        },
+        {
+          "id": "top__wood_10_16",
+          "kind": "wood",
+          "label": "ALPI 10.16",
+          "swatch": "../../../shared/swatches/wood_10_16.jpg",
+          "layer": "layers/top__wood_10_16.webp"
+        },
+        {
+          "id": "top__wood_10_41",
+          "kind": "wood",
+          "label": "ALPI 10.41",
+          "swatch": "../../../shared/swatches/wood_10_41.jpg",
+          "layer": "layers/top__wood_10_41.webp"
+        },
+        {
+          "id": "top__wood_10_32",
+          "kind": "wood",
+          "label": "ALPI 10.32",
+          "swatch": "../../../shared/swatches/wood_10_32.jpg",
+          "layer": "layers/top__wood_10_32.webp"
+        },
+        {
+          "id": "top__wood_10_23",
+          "kind": "wood",
+          "label": "ALPI 10.23",
+          "swatch": "../../../shared/swatches/wood_10_23.jpg",
+          "layer": "layers/top__wood_10_23.webp"
+        },
+        {
+          "id": "top__wood_18_53",
+          "kind": "wood",
+          "label": "ALPI 18.53",
+          "swatch": "../../../shared/swatches/wood_18_53.jpg",
+          "layer": "layers/top__wood_18_53.webp"
+        },
+        {
+          "id": "top__wood_18_52",
+          "kind": "wood",
+          "label": "ALPI 18.52",
+          "swatch": "../../../shared/swatches/wood_18_52.jpg",
+          "layer": "layers/top__wood_18_52.webp"
+        },
+        {
+          "id": "top__wood_18_51",
+          "kind": "wood",
+          "label": "ALPI 18.51",
+          "swatch": "../../../shared/swatches/wood_18_51.jpg",
+          "layer": "layers/top__wood_18_51.webp"
+        },
+        {
+          "id": "top__wood_11_06",
+          "kind": "wood",
+          "label": "ALPI 11.06",
+          "swatch": "../../../shared/swatches/wood_11_06.jpg",
+          "layer": "layers/top__wood_11_06.webp"
+        },
+        {
+          "id": "top__wood_11_05",
+          "kind": "wood",
+          "label": "ALPI 11.05",
+          "swatch": "../../../shared/swatches/wood_11_05.jpg",
+          "layer": "layers/top__wood_11_05.webp"
+        },
+        {
+          "id": "top__wood_10_45",
+          "kind": "wood",
+          "label": "ALPI 10.45",
+          "swatch": "../../../shared/swatches/wood_10_45.jpg",
+          "layer": "layers/top__wood_10_45.webp"
+        },
+        {
+          "id": "top__marble_calacatta-viola-180x240",
+          "kind": "marble",
+          "label": "Calacatta",
+          "swatch": "../../../shared/swatches/marble_calacatta-viola-180x240.jpg",
+          "layer": "layers/top__marble_calacatta-viola-180x240.webp"
+        },
+        {
+          "id": "top__marble_colorado-330x200",
+          "kind": "marble",
+          "label": "Colorado",
+          "swatch": "../../../shared/swatches/marble_colorado-330x200.jpg",
+          "layer": "layers/top__marble_colorado-330x200.webp"
+        },
+        {
+          "id": "top__marble_elegant-brown-295x199",
+          "kind": "marble",
+          "label": "Elegant",
+          "swatch": "../../../shared/swatches/marble_elegant-brown-295x199.jpg",
+          "layer": "layers/top__marble_elegant-brown-295x199.webp"
+        },
+        {
+          "id": "top__marble_oyster-white-317x192",
+          "kind": "marble",
+          "label": "Oyster",
+          "swatch": "../../../shared/swatches/marble_oyster-white-317x192.jpg",
+          "layer": "layers/top__marble_oyster-white-317x192.webp"
+        },
+        {
+          "id": "top__marble_emperador-brown-light",
+          "kind": "marble",
+          "label": "Emperador",
+          "swatch": "../../../shared/swatches/marble_emperador-brown-light.jpg",
+          "layer": "layers/top__marble_emperador-brown-light.webp"
+        },
+        {
+          "id": "top__marble_rosso-levanto",
+          "kind": "marble",
+          "label": "Rosso",
+          "swatch": "../../../shared/swatches/marble_rosso-levanto.jpg",
+          "layer": "layers/top__marble_rosso-levanto.webp"
+        },
+        {
+          "id": "top__marble_super-white",
+          "kind": "marble",
+          "label": "Super",
+          "swatch": "../../../shared/swatches/marble_super-white.jpg",
+          "layer": "layers/top__marble_super-white.webp"
+        },
+        {
+          "id": "top__marble_travertino-grigio",
+          "kind": "marble",
+          "label": "Travertino",
+          "swatch": "../../../shared/swatches/marble_travertino-grigio.jpg",
+          "layer": "layers/top__marble_travertino-grigio.webp"
+        }
+      ],
+      "bbox": [
+        154,
+        759,
+        2252,
+        181
+      ]
+    },
+    {
+      "id": "big_a",
+      "label": "Gamba grande A",
+      "z": 2,
+      "options": [
+        {
+          "id": "big_a__wood_10_61",
+          "kind": "wood",
+          "label": "ALPI 10.61",
+          "swatch": "../../../shared/swatches/wood_10_61.jpg",
+          "layer": "layers/big_a__wood_10_61.webp"
+        },
+        {
+          "id": "big_a__wood_10_74",
+          "kind": "wood",
+          "label": "ALPI 10.74",
+          "swatch": "../../../shared/swatches/wood_10_74.jpg",
+          "layer": "layers/big_a__wood_10_74.webp"
+        },
+        {
+          "id": "big_a__wood_10_88",
+          "kind": "wood",
+          "label": "ALPI 10.88",
+          "swatch": "../../../shared/swatches/wood_10_88.jpg",
+          "layer": "layers/big_a__wood_10_88.webp"
+        },
+        {
+          "id": "big_a__wood_10_16",
+          "kind": "wood",
+          "label": "ALPI 10.16",
+          "swatch": "../../../shared/swatches/wood_10_16.jpg",
+          "layer": "layers/big_a__wood_10_16.webp"
+        },
+        {
+          "id": "big_a__wood_10_41",
+          "kind": "wood",
+          "label": "ALPI 10.41",
+          "swatch": "../../../shared/swatches/wood_10_41.jpg",
+          "layer": "layers/big_a__wood_10_41.webp"
+        },
+        {
+          "id": "big_a__wood_10_32",
+          "kind": "wood",
+          "label": "ALPI 10.32",
+          "swatch": "../../../shared/swatches/wood_10_32.jpg",
+          "layer": "layers/big_a__wood_10_32.webp"
+        },
+        {
+          "id": "big_a__wood_10_23",
+          "kind": "wood",
+          "label": "ALPI 10.23",
+          "swatch": "../../../shared/swatches/wood_10_23.jpg",
+          "layer": "layers/big_a__wood_10_23.webp"
+        },
+        {
+          "id": "big_a__wood_18_53",
+          "kind": "wood",
+          "label": "ALPI 18.53",
+          "swatch": "../../../shared/swatches/wood_18_53.jpg",
+          "layer": "layers/big_a__wood_18_53.webp"
+        },
+        {
+          "id": "big_a__wood_18_52",
+          "kind": "wood",
+          "label": "ALPI 18.52",
+          "swatch": "../../../shared/swatches/wood_18_52.jpg",
+          "layer": "layers/big_a__wood_18_52.webp"
+        },
+        {
+          "id": "big_a__wood_18_51",
+          "kind": "wood",
+          "label": "ALPI 18.51",
+          "swatch": "../../../shared/swatches/wood_18_51.jpg",
+          "layer": "layers/big_a__wood_18_51.webp"
+        },
+        {
+          "id": "big_a__wood_11_06",
+          "kind": "wood",
+          "label": "ALPI 11.06",
+          "swatch": "../../../shared/swatches/wood_11_06.jpg",
+          "layer": "layers/big_a__wood_11_06.webp"
+        },
+        {
+          "id": "big_a__wood_11_05",
+          "kind": "wood",
+          "label": "ALPI 11.05",
+          "swatch": "../../../shared/swatches/wood_11_05.jpg",
+          "layer": "layers/big_a__wood_11_05.webp"
+        },
+        {
+          "id": "big_a__wood_10_45",
+          "kind": "wood",
+          "label": "ALPI 10.45",
+          "swatch": "../../../shared/swatches/wood_10_45.jpg",
+          "layer": "layers/big_a__wood_10_45.webp"
+        },
+        {
+          "id": "big_a__lac_1015",
+          "kind": "lac",
+          "label": "RAL 1015",
+          "swatch": "../../../shared/swatches/lac_1015.jpg",
+          "layer": "layers/big_a__lac_1015.webp"
+        },
+        {
+          "id": "big_a__lac_1033",
+          "kind": "lac",
+          "label": "RAL 1033",
+          "swatch": "../../../shared/swatches/lac_1033.jpg",
+          "layer": "layers/big_a__lac_1033.webp"
+        },
+        {
+          "id": "big_a__lac_2001",
+          "kind": "lac",
+          "label": "RAL 2001",
+          "swatch": "../../../shared/swatches/lac_2001.jpg",
+          "layer": "layers/big_a__lac_2001.webp"
+        },
+        {
+          "id": "big_a__lac_3001",
+          "kind": "lac",
+          "label": "RAL 3001",
+          "swatch": "../../../shared/swatches/lac_3001.jpg",
+          "layer": "layers/big_a__lac_3001.webp"
+        },
+        {
+          "id": "big_a__lac_3007",
+          "kind": "lac",
+          "label": "RAL 3007",
+          "swatch": "../../../shared/swatches/lac_3007.jpg",
+          "layer": "layers/big_a__lac_3007.webp"
+        },
+        {
+          "id": "big_a__lac_3012",
+          "kind": "lac",
+          "label": "RAL 3012",
+          "swatch": "../../../shared/swatches/lac_3012.jpg",
+          "layer": "layers/big_a__lac_3012.webp"
+        },
+        {
+          "id": "big_a__lac_4001",
+          "kind": "lac",
+          "label": "RAL 4001",
+          "swatch": "../../../shared/swatches/lac_4001.jpg",
+          "layer": "layers/big_a__lac_4001.webp"
+        },
+        {
+          "id": "big_a__lac_5000",
+          "kind": "lac",
+          "label": "RAL 5000",
+          "swatch": "../../../shared/swatches/lac_5000.jpg",
+          "layer": "layers/big_a__lac_5000.webp"
+        },
+        {
+          "id": "big_a__lac_5008",
+          "kind": "lac",
+          "label": "RAL 5008",
+          "swatch": "../../../shared/swatches/lac_5008.jpg",
+          "layer": "layers/big_a__lac_5008.webp"
+        },
+        {
+          "id": "big_a__lac_5010",
+          "kind": "lac",
+          "label": "RAL 5010",
+          "swatch": "../../../shared/swatches/lac_5010.jpg",
+          "layer": "layers/big_a__lac_5010.webp"
+        },
+        {
+          "id": "big_a__lac_6000",
+          "kind": "lac",
+          "label": "RAL 6000",
+          "swatch": "../../../shared/swatches/lac_6000.jpg",
+          "layer": "layers/big_a__lac_6000.webp"
+        },
+        {
+          "id": "big_a__lac_6005",
+          "kind": "lac",
+          "label": "RAL 6005",
+          "swatch": "../../../shared/swatches/lac_6005.jpg",
+          "layer": "layers/big_a__lac_6005.webp"
+        },
+        {
+          "id": "big_a__lac_6015",
+          "kind": "lac",
+          "label": "RAL 6015",
+          "swatch": "../../../shared/swatches/lac_6015.jpg",
+          "layer": "layers/big_a__lac_6015.webp"
+        },
+        {
+          "id": "big_a__lac_7003",
+          "kind": "lac",
+          "label": "RAL 7003",
+          "swatch": "../../../shared/swatches/lac_7003.jpg",
+          "layer": "layers/big_a__lac_7003.webp"
+        },
+        {
+          "id": "big_a__lac_7004",
+          "kind": "lac",
+          "label": "RAL 7004",
+          "swatch": "../../../shared/swatches/lac_7004.jpg",
+          "layer": "layers/big_a__lac_7004.webp"
+        },
+        {
+          "id": "big_a__lac_7021",
+          "kind": "lac",
+          "label": "RAL 7021",
+          "swatch": "../../../shared/swatches/lac_7021.jpg",
+          "layer": "layers/big_a__lac_7021.webp"
+        },
+        {
+          "id": "big_a__lac_7044",
+          "kind": "lac",
+          "label": "RAL 7044",
+          "swatch": "../../../shared/swatches/lac_7044.jpg",
+          "layer": "layers/big_a__lac_7044.webp"
+        },
+        {
+          "id": "big_a__lac_8004",
+          "kind": "lac",
+          "label": "RAL 8004",
+          "swatch": "../../../shared/swatches/lac_8004.jpg",
+          "layer": "layers/big_a__lac_8004.webp"
+        },
+        {
+          "id": "big_a__lac_8019",
+          "kind": "lac",
+          "label": "RAL 8019",
+          "swatch": "../../../shared/swatches/lac_8019.jpg",
+          "layer": "layers/big_a__lac_8019.webp"
+        },
+        {
+          "id": "big_a__lac_9001",
+          "kind": "lac",
+          "label": "RAL 9001",
+          "swatch": "../../../shared/swatches/lac_9001.jpg",
+          "layer": "layers/big_a__lac_9001.webp"
+        },
+        {
+          "id": "big_a__lac_9010",
+          "kind": "lac",
+          "label": "RAL 9010",
+          "swatch": "../../../shared/swatches/lac_9010.jpg",
+          "layer": "layers/big_a__lac_9010.webp"
+        },
+        {
+          "id": "big_a__lac_9016",
+          "kind": "lac",
+          "label": "RAL 9016",
+          "swatch": "../../../shared/swatches/lac_9016.jpg",
+          "layer": "layers/big_a__lac_9016.webp"
+        },
+        {
+          "id": "big_a__lac_9017",
+          "kind": "lac",
+          "label": "RAL 9017",
+          "swatch": "../../../shared/swatches/lac_9017.jpg",
+          "layer": "layers/big_a__lac_9017.webp"
+        }
+      ],
+      "bbox": [
+        517,
+        924,
+        1634,
+        484
+      ]
+    },
+    {
+      "id": "big_b",
+      "label": "Gamba grande B",
+      "z": 2,
+      "options": [
+        {
+          "id": "big_b__wood_10_61",
+          "kind": "wood",
+          "label": "ALPI 10.61",
+          "swatch": "../../../shared/swatches/wood_10_61.jpg",
+          "layer": "layers/big_b__wood_10_61.webp"
+        },
+        {
+          "id": "big_b__wood_10_74",
+          "kind": "wood",
+          "label": "ALPI 10.74",
+          "swatch": "../../../shared/swatches/wood_10_74.jpg",
+          "layer": "layers/big_b__wood_10_74.webp"
+        },
+        {
+          "id": "big_b__wood_10_88",
+          "kind": "wood",
+          "label": "ALPI 10.88",
+          "swatch": "../../../shared/swatches/wood_10_88.jpg",
+          "layer": "layers/big_b__wood_10_88.webp"
+        },
+        {
+          "id": "big_b__wood_10_16",
+          "kind": "wood",
+          "label": "ALPI 10.16",
+          "swatch": "../../../shared/swatches/wood_10_16.jpg",
+          "layer": "layers/big_b__wood_10_16.webp"
+        },
+        {
+          "id": "big_b__wood_10_41",
+          "kind": "wood",
+          "label": "ALPI 10.41",
+          "swatch": "../../../shared/swatches/wood_10_41.jpg",
+          "layer": "layers/big_b__wood_10_41.webp"
+        },
+        {
+          "id": "big_b__wood_10_32",
+          "kind": "wood",
+          "label": "ALPI 10.32",
+          "swatch": "../../../shared/swatches/wood_10_32.jpg",
+          "layer": "layers/big_b__wood_10_32.webp"
+        },
+        {
+          "id": "big_b__wood_10_23",
+          "kind": "wood",
+          "label": "ALPI 10.23",
+          "swatch": "../../../shared/swatches/wood_10_23.jpg",
+          "layer": "layers/big_b__wood_10_23.webp"
+        },
+        {
+          "id": "big_b__wood_18_53",
+          "kind": "wood",
+          "label": "ALPI 18.53",
+          "swatch": "../../../shared/swatches/wood_18_53.jpg",
+          "layer": "layers/big_b__wood_18_53.webp"
+        },
+        {
+          "id": "big_b__wood_18_52",
+          "kind": "wood",
+          "label": "ALPI 18.52",
+          "swatch": "../../../shared/swatches/wood_18_52.jpg",
+          "layer": "layers/big_b__wood_18_52.webp"
+        },
+        {
+          "id": "big_b__wood_18_51",
+          "kind": "wood",
+          "label": "ALPI 18.51",
+          "swatch": "../../../shared/swatches/wood_18_51.jpg",
+          "layer": "layers/big_b__wood_18_51.webp"
+        },
+        {
+          "id": "big_b__wood_11_06",
+          "kind": "wood",
+          "label": "ALPI 11.06",
+          "swatch": "../../../shared/swatches/wood_11_06.jpg",
+          "layer": "layers/big_b__wood_11_06.webp"
+        },
+        {
+          "id": "big_b__wood_11_05",
+          "kind": "wood",
+          "label": "ALPI 11.05",
+          "swatch": "../../../shared/swatches/wood_11_05.jpg",
+          "layer": "layers/big_b__wood_11_05.webp"
+        },
+        {
+          "id": "big_b__wood_10_45",
+          "kind": "wood",
+          "label": "ALPI 10.45",
+          "swatch": "../../../shared/swatches/wood_10_45.jpg",
+          "layer": "layers/big_b__wood_10_45.webp"
+        },
+        {
+          "id": "big_b__lac_1015",
+          "kind": "lac",
+          "label": "RAL 1015",
+          "swatch": "../../../shared/swatches/lac_1015.jpg",
+          "layer": "layers/big_b__lac_1015.webp"
+        },
+        {
+          "id": "big_b__lac_1033",
+          "kind": "lac",
+          "label": "RAL 1033",
+          "swatch": "../../../shared/swatches/lac_1033.jpg",
+          "layer": "layers/big_b__lac_1033.webp"
+        },
+        {
+          "id": "big_b__lac_2001",
+          "kind": "lac",
+          "label": "RAL 2001",
+          "swatch": "../../../shared/swatches/lac_2001.jpg",
+          "layer": "layers/big_b__lac_2001.webp"
+        },
+        {
+          "id": "big_b__lac_3001",
+          "kind": "lac",
+          "label": "RAL 3001",
+          "swatch": "../../../shared/swatches/lac_3001.jpg",
+          "layer": "layers/big_b__lac_3001.webp"
+        },
+        {
+          "id": "big_b__lac_3007",
+          "kind": "lac",
+          "label": "RAL 3007",
+          "swatch": "../../../shared/swatches/lac_3007.jpg",
+          "layer": "layers/big_b__lac_3007.webp"
+        },
+        {
+          "id": "big_b__lac_3012",
+          "kind": "lac",
+          "label": "RAL 3012",
+          "swatch": "../../../shared/swatches/lac_3012.jpg",
+          "layer": "layers/big_b__lac_3012.webp"
+        },
+        {
+          "id": "big_b__lac_4001",
+          "kind": "lac",
+          "label": "RAL 4001",
+          "swatch": "../../../shared/swatches/lac_4001.jpg",
+          "layer": "layers/big_b__lac_4001.webp"
+        },
+        {
+          "id": "big_b__lac_5000",
+          "kind": "lac",
+          "label": "RAL 5000",
+          "swatch": "../../../shared/swatches/lac_5000.jpg",
+          "layer": "layers/big_b__lac_5000.webp"
+        },
+        {
+          "id": "big_b__lac_5008",
+          "kind": "lac",
+          "label": "RAL 5008",
+          "swatch": "../../../shared/swatches/lac_5008.jpg",
+          "layer": "layers/big_b__lac_5008.webp"
+        },
+        {
+          "id": "big_b__lac_5010",
+          "kind": "lac",
+          "label": "RAL 5010",
+          "swatch": "../../../shared/swatches/lac_5010.jpg",
+          "layer": "layers/big_b__lac_5010.webp"
+        },
+        {
+          "id": "big_b__lac_6000",
+          "kind": "lac",
+          "label": "RAL 6000",
+          "swatch": "../../../shared/swatches/lac_6000.jpg",
+          "layer": "layers/big_b__lac_6000.webp"
+        },
+        {
+          "id": "big_b__lac_6005",
+          "kind": "lac",
+          "label": "RAL 6005",
+          "swatch": "../../../shared/swatches/lac_6005.jpg",
+          "layer": "layers/big_b__lac_6005.webp"
+        },
+        {
+          "id": "big_b__lac_6015",
+          "kind": "lac",
+          "label": "RAL 6015",
+          "swatch": "../../../shared/swatches/lac_6015.jpg",
+          "layer": "layers/big_b__lac_6015.webp"
+        },
+        {
+          "id": "big_b__lac_7003",
+          "kind": "lac",
+          "label": "RAL 7003",
+          "swatch": "../../../shared/swatches/lac_7003.jpg",
+          "layer": "layers/big_b__lac_7003.webp"
+        },
+        {
+          "id": "big_b__lac_7004",
+          "kind": "lac",
+          "label": "RAL 7004",
+          "swatch": "../../../shared/swatches/lac_7004.jpg",
+          "layer": "layers/big_b__lac_7004.webp"
+        },
+        {
+          "id": "big_b__lac_7021",
+          "kind": "lac",
+          "label": "RAL 7021",
+          "swatch": "../../../shared/swatches/lac_7021.jpg",
+          "layer": "layers/big_b__lac_7021.webp"
+        },
+        {
+          "id": "big_b__lac_7044",
+          "kind": "lac",
+          "label": "RAL 7044",
+          "swatch": "../../../shared/swatches/lac_7044.jpg",
+          "layer": "layers/big_b__lac_7044.webp"
+        },
+        {
+          "id": "big_b__lac_8004",
+          "kind": "lac",
+          "label": "RAL 8004",
+          "swatch": "../../../shared/swatches/lac_8004.jpg",
+          "layer": "layers/big_b__lac_8004.webp"
+        },
+        {
+          "id": "big_b__lac_8019",
+          "kind": "lac",
+          "label": "RAL 8019",
+          "swatch": "../../../shared/swatches/lac_8019.jpg",
+          "layer": "layers/big_b__lac_8019.webp"
+        },
+        {
+          "id": "big_b__lac_9001",
+          "kind": "lac",
+          "label": "RAL 9001",
+          "swatch": "../../../shared/swatches/lac_9001.jpg",
+          "layer": "layers/big_b__lac_9001.webp"
+        },
+        {
+          "id": "big_b__lac_9010",
+          "kind": "lac",
+          "label": "RAL 9010",
+          "swatch": "../../../shared/swatches/lac_9010.jpg",
+          "layer": "layers/big_b__lac_9010.webp"
+        },
+        {
+          "id": "big_b__lac_9016",
+          "kind": "lac",
+          "label": "RAL 9016",
+          "swatch": "../../../shared/swatches/lac_9016.jpg",
+          "layer": "layers/big_b__lac_9016.webp"
+        },
+        {
+          "id": "big_b__lac_9017",
+          "kind": "lac",
+          "label": "RAL 9017",
+          "swatch": "../../../shared/swatches/lac_9017.jpg",
+          "layer": "layers/big_b__lac_9017.webp"
+        }
+      ],
+      "bbox": [
+        456,
+        925,
+        1589,
+        486
+      ]
+    },
+    {
+      "id": "small",
+      "label": "Inserto",
+      "z": 3,
+      "options": [
+        {
+          "id": "small__wood_10_61",
+          "kind": "wood",
+          "label": "ALPI 10.61",
+          "swatch": "../../../shared/swatches/wood_10_61.jpg",
+          "layer": "layers/small__wood_10_61.webp"
+        },
+        {
+          "id": "small__wood_10_74",
+          "kind": "wood",
+          "label": "ALPI 10.74",
+          "swatch": "../../../shared/swatches/wood_10_74.jpg",
+          "layer": "layers/small__wood_10_74.webp"
+        },
+        {
+          "id": "small__wood_10_88",
+          "kind": "wood",
+          "label": "ALPI 10.88",
+          "swatch": "../../../shared/swatches/wood_10_88.jpg",
+          "layer": "layers/small__wood_10_88.webp"
+        },
+        {
+          "id": "small__wood_10_16",
+          "kind": "wood",
+          "label": "ALPI 10.16",
+          "swatch": "../../../shared/swatches/wood_10_16.jpg",
+          "layer": "layers/small__wood_10_16.webp"
+        },
+        {
+          "id": "small__wood_10_41",
+          "kind": "wood",
+          "label": "ALPI 10.41",
+          "swatch": "../../../shared/swatches/wood_10_41.jpg",
+          "layer": "layers/small__wood_10_41.webp"
+        },
+        {
+          "id": "small__wood_10_32",
+          "kind": "wood",
+          "label": "ALPI 10.32",
+          "swatch": "../../../shared/swatches/wood_10_32.jpg",
+          "layer": "layers/small__wood_10_32.webp"
+        },
+        {
+          "id": "small__wood_10_23",
+          "kind": "wood",
+          "label": "ALPI 10.23",
+          "swatch": "../../../shared/swatches/wood_10_23.jpg",
+          "layer": "layers/small__wood_10_23.webp"
+        },
+        {
+          "id": "small__wood_18_53",
+          "kind": "wood",
+          "label": "ALPI 18.53",
+          "swatch": "../../../shared/swatches/wood_18_53.jpg",
+          "layer": "layers/small__wood_18_53.webp"
+        },
+        {
+          "id": "small__wood_18_52",
+          "kind": "wood",
+          "label": "ALPI 18.52",
+          "swatch": "../../../shared/swatches/wood_18_52.jpg",
+          "layer": "layers/small__wood_18_52.webp"
+        },
+        {
+          "id": "small__wood_18_51",
+          "kind": "wood",
+          "label": "ALPI 18.51",
+          "swatch": "../../../shared/swatches/wood_18_51.jpg",
+          "layer": "layers/small__wood_18_51.webp"
+        },
+        {
+          "id": "small__wood_11_06",
+          "kind": "wood",
+          "label": "ALPI 11.06",
+          "swatch": "../../../shared/swatches/wood_11_06.jpg",
+          "layer": "layers/small__wood_11_06.webp"
+        },
+        {
+          "id": "small__wood_11_05",
+          "kind": "wood",
+          "label": "ALPI 11.05",
+          "swatch": "../../../shared/swatches/wood_11_05.jpg",
+          "layer": "layers/small__wood_11_05.webp"
+        },
+        {
+          "id": "small__wood_10_45",
+          "kind": "wood",
+          "label": "ALPI 10.45",
+          "swatch": "../../../shared/swatches/wood_10_45.jpg",
+          "layer": "layers/small__wood_10_45.webp"
+        },
+        {
+          "id": "small__lac_1015",
+          "kind": "lac",
+          "label": "RAL 1015",
+          "swatch": "../../../shared/swatches/lac_1015.jpg",
+          "layer": "layers/small__lac_1015.webp"
+        },
+        {
+          "id": "small__lac_1033",
+          "kind": "lac",
+          "label": "RAL 1033",
+          "swatch": "../../../shared/swatches/lac_1033.jpg",
+          "layer": "layers/small__lac_1033.webp"
+        },
+        {
+          "id": "small__lac_2001",
+          "kind": "lac",
+          "label": "RAL 2001",
+          "swatch": "../../../shared/swatches/lac_2001.jpg",
+          "layer": "layers/small__lac_2001.webp"
+        },
+        {
+          "id": "small__lac_3001",
+          "kind": "lac",
+          "label": "RAL 3001",
+          "swatch": "../../../shared/swatches/lac_3001.jpg",
+          "layer": "layers/small__lac_3001.webp"
+        },
+        {
+          "id": "small__lac_3007",
+          "kind": "lac",
+          "label": "RAL 3007",
+          "swatch": "../../../shared/swatches/lac_3007.jpg",
+          "layer": "layers/small__lac_3007.webp"
+        },
+        {
+          "id": "small__lac_3012",
+          "kind": "lac",
+          "label": "RAL 3012",
+          "swatch": "../../../shared/swatches/lac_3012.jpg",
+          "layer": "layers/small__lac_3012.webp"
+        },
+        {
+          "id": "small__lac_4001",
+          "kind": "lac",
+          "label": "RAL 4001",
+          "swatch": "../../../shared/swatches/lac_4001.jpg",
+          "layer": "layers/small__lac_4001.webp"
+        },
+        {
+          "id": "small__lac_5000",
+          "kind": "lac",
+          "label": "RAL 5000",
+          "swatch": "../../../shared/swatches/lac_5000.jpg",
+          "layer": "layers/small__lac_5000.webp"
+        },
+        {
+          "id": "small__lac_5008",
+          "kind": "lac",
+          "label": "RAL 5008",
+          "swatch": "../../../shared/swatches/lac_5008.jpg",
+          "layer": "layers/small__lac_5008.webp"
+        },
+        {
+          "id": "small__lac_5010",
+          "kind": "lac",
+          "label": "RAL 5010",
+          "swatch": "../../../shared/swatches/lac_5010.jpg",
+          "layer": "layers/small__lac_5010.webp"
+        },
+        {
+          "id": "small__lac_6000",
+          "kind": "lac",
+          "label": "RAL 6000",
+          "swatch": "../../../shared/swatches/lac_6000.jpg",
+          "layer": "layers/small__lac_6000.webp"
+        },
+        {
+          "id": "small__lac_6005",
+          "kind": "lac",
+          "label": "RAL 6005",
+          "swatch": "../../../shared/swatches/lac_6005.jpg",
+          "layer": "layers/small__lac_6005.webp"
+        },
+        {
+          "id": "small__lac_6015",
+          "kind": "lac",
+          "label": "RAL 6015",
+          "swatch": "../../../shared/swatches/lac_6015.jpg",
+          "layer": "layers/small__lac_6015.webp"
+        },
+        {
+          "id": "small__lac_7003",
+          "kind": "lac",
+          "label": "RAL 7003",
+          "swatch": "../../../shared/swatches/lac_7003.jpg",
+          "layer": "layers/small__lac_7003.webp"
+        },
+        {
+          "id": "small__lac_7004",
+          "kind": "lac",
+          "label": "RAL 7004",
+          "swatch": "../../../shared/swatches/lac_7004.jpg",
+          "layer": "layers/small__lac_7004.webp"
+        },
+        {
+          "id": "small__lac_7021",
+          "kind": "lac",
+          "label": "RAL 7021",
+          "swatch": "../../../shared/swatches/lac_7021.jpg",
+          "layer": "layers/small__lac_7021.webp"
+        },
+        {
+          "id": "small__lac_7044",
+          "kind": "lac",
+          "label": "RAL 7044",
+          "swatch": "../../../shared/swatches/lac_7044.jpg",
+          "layer": "layers/small__lac_7044.webp"
+        },
+        {
+          "id": "small__lac_8004",
+          "kind": "lac",
+          "label": "RAL 8004",
+          "swatch": "../../../shared/swatches/lac_8004.jpg",
+          "layer": "layers/small__lac_8004.webp"
+        },
+        {
+          "id": "small__lac_8019",
+          "kind": "lac",
+          "label": "RAL 8019",
+          "swatch": "../../../shared/swatches/lac_8019.jpg",
+          "layer": "layers/small__lac_8019.webp"
+        },
+        {
+          "id": "small__lac_9001",
+          "kind": "lac",
+          "label": "RAL 9001",
+          "swatch": "../../../shared/swatches/lac_9001.jpg",
+          "layer": "layers/small__lac_9001.webp"
+        },
+        {
+          "id": "small__lac_9010",
+          "kind": "lac",
+          "label": "RAL 9010",
+          "swatch": "../../../shared/swatches/lac_9010.jpg",
+          "layer": "layers/small__lac_9010.webp"
+        },
+        {
+          "id": "small__lac_9016",
+          "kind": "lac",
+          "label": "RAL 9016",
+          "swatch": "../../../shared/swatches/lac_9016.jpg",
+          "layer": "layers/small__lac_9016.webp"
+        },
+        {
+          "id": "small__lac_9017",
+          "kind": "lac",
+          "label": "RAL 9017",
+          "swatch": "../../../shared/swatches/lac_9017.jpg",
+          "layer": "layers/small__lac_9017.webp"
+        },
+        {
+          "id": "small__marble_calacatta-viola-180x240",
+          "kind": "marble",
+          "label": "Calacatta",
+          "swatch": "../../../shared/swatches/marble_calacatta-viola-180x240.jpg",
+          "layer": "layers/small__marble_calacatta-viola-180x240.webp"
+        },
+        {
+          "id": "small__marble_colorado-330x200",
+          "kind": "marble",
+          "label": "Colorado",
+          "swatch": "../../../shared/swatches/marble_colorado-330x200.jpg",
+          "layer": "layers/small__marble_colorado-330x200.webp"
+        },
+        {
+          "id": "small__marble_elegant-brown-295x199",
+          "kind": "marble",
+          "label": "Elegant",
+          "swatch": "../../../shared/swatches/marble_elegant-brown-295x199.jpg",
+          "layer": "layers/small__marble_elegant-brown-295x199.webp"
+        },
+        {
+          "id": "small__marble_oyster-white-317x192",
+          "kind": "marble",
+          "label": "Oyster",
+          "swatch": "../../../shared/swatches/marble_oyster-white-317x192.jpg",
+          "layer": "layers/small__marble_oyster-white-317x192.webp"
+        },
+        {
+          "id": "small__marble_emperador-brown-light",
+          "kind": "marble",
+          "label": "Emperador",
+          "swatch": "../../../shared/swatches/marble_emperador-brown-light.jpg",
+          "layer": "layers/small__marble_emperador-brown-light.webp"
+        },
+        {
+          "id": "small__marble_rosso-levanto",
+          "kind": "marble",
+          "label": "Rosso",
+          "swatch": "../../../shared/swatches/marble_rosso-levanto.jpg",
+          "layer": "layers/small__marble_rosso-levanto.webp"
+        },
+        {
+          "id": "small__marble_super-white",
+          "kind": "marble",
+          "label": "Super",
+          "swatch": "../../../shared/swatches/marble_super-white.jpg",
+          "layer": "layers/small__marble_super-white.webp"
+        },
+        {
+          "id": "small__marble_travertino-grigio",
+          "kind": "marble",
+          "label": "Travertino",
+          "swatch": "../../../shared/swatches/marble_travertino-grigio.jpg",
+          "layer": "layers/small__marble_travertino-grigio.webp"
+        }
+      ],
+      "bbox": [
+        471,
+        1067,
+        1649,
+        357
+      ]
+    }
+  ],
+  "kinds": {
+    "wood": {
+      "label": "Legno",
+      "order": 0
+    },
+    "marble": {
+      "label": "Marmo",
+      "order": 1
+    },
+    "lac": {
+      "label": "Laccato lucido",
+      "order": 1
+    }
+  }
+}

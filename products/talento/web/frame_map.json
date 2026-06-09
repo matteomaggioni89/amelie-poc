@@ -1,0 +1,996 @@
+[
+  {
+    "frame": 1,
+    "role": "base",
+    "group": null,
+    "material": null,
+    "layer_id": "base"
+  },
+  {
+    "frame": 2,
+    "role": "mask",
+    "group": "top",
+    "material": null,
+    "layer_id": "mask__TOP"
+  },
+  {
+    "frame": 3,
+    "role": "mask",
+    "group": "big_a",
+    "material": null,
+    "layer_id": "mask__BIG_A"
+  },
+  {
+    "frame": 4,
+    "role": "mask",
+    "group": "big_b",
+    "material": null,
+    "layer_id": "mask__BIG_B"
+  },
+  {
+    "frame": 5,
+    "role": "mask",
+    "group": "small",
+    "material": null,
+    "layer_id": "mask__SMALL"
+  },
+  {
+    "frame": 6,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_61",
+    "layer_id": "top__wood_10_61"
+  },
+  {
+    "frame": 7,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_74",
+    "layer_id": "top__wood_10_74"
+  },
+  {
+    "frame": 8,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_88",
+    "layer_id": "top__wood_10_88"
+  },
+  {
+    "frame": 9,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_16",
+    "layer_id": "top__wood_10_16"
+  },
+  {
+    "frame": 10,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_41",
+    "layer_id": "top__wood_10_41"
+  },
+  {
+    "frame": 11,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_32",
+    "layer_id": "top__wood_10_32"
+  },
+  {
+    "frame": 12,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_23",
+    "layer_id": "top__wood_10_23"
+  },
+  {
+    "frame": 13,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_18_53",
+    "layer_id": "top__wood_18_53"
+  },
+  {
+    "frame": 14,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_18_52",
+    "layer_id": "top__wood_18_52"
+  },
+  {
+    "frame": 15,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_18_51",
+    "layer_id": "top__wood_18_51"
+  },
+  {
+    "frame": 16,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_11_06",
+    "layer_id": "top__wood_11_06"
+  },
+  {
+    "frame": 17,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_11_05",
+    "layer_id": "top__wood_11_05"
+  },
+  {
+    "frame": 18,
+    "role": "beauty",
+    "group": "top",
+    "material": "wood_10_45",
+    "layer_id": "top__wood_10_45"
+  },
+  {
+    "frame": 19,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_calacatta-viola-180x240",
+    "layer_id": "top__marble_calacatta-viola-180x240"
+  },
+  {
+    "frame": 20,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_colorado-330x200",
+    "layer_id": "top__marble_colorado-330x200"
+  },
+  {
+    "frame": 21,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_elegant-brown-295x199",
+    "layer_id": "top__marble_elegant-brown-295x199"
+  },
+  {
+    "frame": 22,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_oyster-white-317x192",
+    "layer_id": "top__marble_oyster-white-317x192"
+  },
+  {
+    "frame": 23,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_emperador-brown-light",
+    "layer_id": "top__marble_emperador-brown-light"
+  },
+  {
+    "frame": 24,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_rosso-levanto",
+    "layer_id": "top__marble_rosso-levanto"
+  },
+  {
+    "frame": 25,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_super-white",
+    "layer_id": "top__marble_super-white"
+  },
+  {
+    "frame": 26,
+    "role": "beauty",
+    "group": "top",
+    "material": "marble_travertino-grigio",
+    "layer_id": "top__marble_travertino-grigio"
+  },
+  {
+    "frame": 27,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_61",
+    "layer_id": "big_a__wood_10_61"
+  },
+  {
+    "frame": 28,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_74",
+    "layer_id": "big_a__wood_10_74"
+  },
+  {
+    "frame": 29,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_88",
+    "layer_id": "big_a__wood_10_88"
+  },
+  {
+    "frame": 30,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_16",
+    "layer_id": "big_a__wood_10_16"
+  },
+  {
+    "frame": 31,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_41",
+    "layer_id": "big_a__wood_10_41"
+  },
+  {
+    "frame": 32,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_32",
+    "layer_id": "big_a__wood_10_32"
+  },
+  {
+    "frame": 33,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_23",
+    "layer_id": "big_a__wood_10_23"
+  },
+  {
+    "frame": 34,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_18_53",
+    "layer_id": "big_a__wood_18_53"
+  },
+  {
+    "frame": 35,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_18_52",
+    "layer_id": "big_a__wood_18_52"
+  },
+  {
+    "frame": 36,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_18_51",
+    "layer_id": "big_a__wood_18_51"
+  },
+  {
+    "frame": 37,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_11_06",
+    "layer_id": "big_a__wood_11_06"
+  },
+  {
+    "frame": 38,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_11_05",
+    "layer_id": "big_a__wood_11_05"
+  },
+  {
+    "frame": 39,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "wood_10_45",
+    "layer_id": "big_a__wood_10_45"
+  },
+  {
+    "frame": 40,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_1015",
+    "layer_id": "big_a__lac_1015"
+  },
+  {
+    "frame": 41,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_1033",
+    "layer_id": "big_a__lac_1033"
+  },
+  {
+    "frame": 42,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_2001",
+    "layer_id": "big_a__lac_2001"
+  },
+  {
+    "frame": 43,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_3001",
+    "layer_id": "big_a__lac_3001"
+  },
+  {
+    "frame": 44,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_3007",
+    "layer_id": "big_a__lac_3007"
+  },
+  {
+    "frame": 45,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_3012",
+    "layer_id": "big_a__lac_3012"
+  },
+  {
+    "frame": 46,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_4001",
+    "layer_id": "big_a__lac_4001"
+  },
+  {
+    "frame": 47,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_5000",
+    "layer_id": "big_a__lac_5000"
+  },
+  {
+    "frame": 48,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_5008",
+    "layer_id": "big_a__lac_5008"
+  },
+  {
+    "frame": 49,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_5010",
+    "layer_id": "big_a__lac_5010"
+  },
+  {
+    "frame": 50,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_6000",
+    "layer_id": "big_a__lac_6000"
+  },
+  {
+    "frame": 51,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_6005",
+    "layer_id": "big_a__lac_6005"
+  },
+  {
+    "frame": 52,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_6015",
+    "layer_id": "big_a__lac_6015"
+  },
+  {
+    "frame": 53,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_7003",
+    "layer_id": "big_a__lac_7003"
+  },
+  {
+    "frame": 54,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_7004",
+    "layer_id": "big_a__lac_7004"
+  },
+  {
+    "frame": 55,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_7021",
+    "layer_id": "big_a__lac_7021"
+  },
+  {
+    "frame": 56,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_7044",
+    "layer_id": "big_a__lac_7044"
+  },
+  {
+    "frame": 57,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_8004",
+    "layer_id": "big_a__lac_8004"
+  },
+  {
+    "frame": 58,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_8019",
+    "layer_id": "big_a__lac_8019"
+  },
+  {
+    "frame": 59,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_9001",
+    "layer_id": "big_a__lac_9001"
+  },
+  {
+    "frame": 60,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_9010",
+    "layer_id": "big_a__lac_9010"
+  },
+  {
+    "frame": 61,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_9016",
+    "layer_id": "big_a__lac_9016"
+  },
+  {
+    "frame": 62,
+    "role": "beauty",
+    "group": "big_a",
+    "material": "lac_9017",
+    "layer_id": "big_a__lac_9017"
+  },
+  {
+    "frame": 63,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_61",
+    "layer_id": "big_b__wood_10_61"
+  },
+  {
+    "frame": 64,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_74",
+    "layer_id": "big_b__wood_10_74"
+  },
+  {
+    "frame": 65,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_88",
+    "layer_id": "big_b__wood_10_88"
+  },
+  {
+    "frame": 66,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_16",
+    "layer_id": "big_b__wood_10_16"
+  },
+  {
+    "frame": 67,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_41",
+    "layer_id": "big_b__wood_10_41"
+  },
+  {
+    "frame": 68,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_32",
+    "layer_id": "big_b__wood_10_32"
+  },
+  {
+    "frame": 69,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_23",
+    "layer_id": "big_b__wood_10_23"
+  },
+  {
+    "frame": 70,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_18_53",
+    "layer_id": "big_b__wood_18_53"
+  },
+  {
+    "frame": 71,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_18_52",
+    "layer_id": "big_b__wood_18_52"
+  },
+  {
+    "frame": 72,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_18_51",
+    "layer_id": "big_b__wood_18_51"
+  },
+  {
+    "frame": 73,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_11_06",
+    "layer_id": "big_b__wood_11_06"
+  },
+  {
+    "frame": 74,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_11_05",
+    "layer_id": "big_b__wood_11_05"
+  },
+  {
+    "frame": 75,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "wood_10_45",
+    "layer_id": "big_b__wood_10_45"
+  },
+  {
+    "frame": 76,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_1015",
+    "layer_id": "big_b__lac_1015"
+  },
+  {
+    "frame": 77,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_1033",
+    "layer_id": "big_b__lac_1033"
+  },
+  {
+    "frame": 78,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_2001",
+    "layer_id": "big_b__lac_2001"
+  },
+  {
+    "frame": 79,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_3001",
+    "layer_id": "big_b__lac_3001"
+  },
+  {
+    "frame": 80,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_3007",
+    "layer_id": "big_b__lac_3007"
+  },
+  {
+    "frame": 81,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_3012",
+    "layer_id": "big_b__lac_3012"
+  },
+  {
+    "frame": 82,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_4001",
+    "layer_id": "big_b__lac_4001"
+  },
+  {
+    "frame": 83,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_5000",
+    "layer_id": "big_b__lac_5000"
+  },
+  {
+    "frame": 84,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_5008",
+    "layer_id": "big_b__lac_5008"
+  },
+  {
+    "frame": 85,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_5010",
+    "layer_id": "big_b__lac_5010"
+  },
+  {
+    "frame": 86,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_6000",
+    "layer_id": "big_b__lac_6000"
+  },
+  {
+    "frame": 87,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_6005",
+    "layer_id": "big_b__lac_6005"
+  },
+  {
+    "frame": 88,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_6015",
+    "layer_id": "big_b__lac_6015"
+  },
+  {
+    "frame": 89,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_7003",
+    "layer_id": "big_b__lac_7003"
+  },
+  {
+    "frame": 90,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_7004",
+    "layer_id": "big_b__lac_7004"
+  },
+  {
+    "frame": 91,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_7021",
+    "layer_id": "big_b__lac_7021"
+  },
+  {
+    "frame": 92,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_7044",
+    "layer_id": "big_b__lac_7044"
+  },
+  {
+    "frame": 93,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_8004",
+    "layer_id": "big_b__lac_8004"
+  },
+  {
+    "frame": 94,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_8019",
+    "layer_id": "big_b__lac_8019"
+  },
+  {
+    "frame": 95,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_9001",
+    "layer_id": "big_b__lac_9001"
+  },
+  {
+    "frame": 96,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_9010",
+    "layer_id": "big_b__lac_9010"
+  },
+  {
+    "frame": 97,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_9016",
+    "layer_id": "big_b__lac_9016"
+  },
+  {
+    "frame": 98,
+    "role": "beauty",
+    "group": "big_b",
+    "material": "lac_9017",
+    "layer_id": "big_b__lac_9017"
+  },
+  {
+    "frame": 99,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_61",
+    "layer_id": "small__wood_10_61"
+  },
+  {
+    "frame": 100,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_74",
+    "layer_id": "small__wood_10_74"
+  },
+  {
+    "frame": 101,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_88",
+    "layer_id": "small__wood_10_88"
+  },
+  {
+    "frame": 102,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_16",
+    "layer_id": "small__wood_10_16"
+  },
+  {
+    "frame": 103,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_41",
+    "layer_id": "small__wood_10_41"
+  },
+  {
+    "frame": 104,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_32",
+    "layer_id": "small__wood_10_32"
+  },
+  {
+    "frame": 105,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_23",
+    "layer_id": "small__wood_10_23"
+  },
+  {
+    "frame": 106,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_18_53",
+    "layer_id": "small__wood_18_53"
+  },
+  {
+    "frame": 107,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_18_52",
+    "layer_id": "small__wood_18_52"
+  },
+  {
+    "frame": 108,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_18_51",
+    "layer_id": "small__wood_18_51"
+  },
+  {
+    "frame": 109,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_11_06",
+    "layer_id": "small__wood_11_06"
+  },
+  {
+    "frame": 110,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_11_05",
+    "layer_id": "small__wood_11_05"
+  },
+  {
+    "frame": 111,
+    "role": "beauty",
+    "group": "small",
+    "material": "wood_10_45",
+    "layer_id": "small__wood_10_45"
+  },
+  {
+    "frame": 112,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_1015",
+    "layer_id": "small__lac_1015"
+  },
+  {
+    "frame": 113,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_1033",
+    "layer_id": "small__lac_1033"
+  },
+  {
+    "frame": 114,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_2001",
+    "layer_id": "small__lac_2001"
+  },
+  {
+    "frame": 115,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_3001",
+    "layer_id": "small__lac_3001"
+  },
+  {
+    "frame": 116,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_3007",
+    "layer_id": "small__lac_3007"
+  },
+  {
+    "frame": 117,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_3012",
+    "layer_id": "small__lac_3012"
+  },
+  {
+    "frame": 118,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_4001",
+    "layer_id": "small__lac_4001"
+  },
+  {
+    "frame": 119,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_5000",
+    "layer_id": "small__lac_5000"
+  },
+  {
+    "frame": 120,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_5008",
+    "layer_id": "small__lac_5008"
+  },
+  {
+    "frame": 121,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_5010",
+    "layer_id": "small__lac_5010"
+  },
+  {
+    "frame": 122,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_6000",
+    "layer_id": "small__lac_6000"
+  },
+  {
+    "frame": 123,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_6005",
+    "layer_id": "small__lac_6005"
+  },
+  {
+    "frame": 124,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_6015",
+    "layer_id": "small__lac_6015"
+  },
+  {
+    "frame": 125,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_7003",
+    "layer_id": "small__lac_7003"
+  },
+  {
+    "frame": 126,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_7004",
+    "layer_id": "small__lac_7004"
+  },
+  {
+    "frame": 127,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_7021",
+    "layer_id": "small__lac_7021"
+  },
+  {
+    "frame": 128,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_7044",
+    "layer_id": "small__lac_7044"
+  },
+  {
+    "frame": 129,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_8004",
+    "layer_id": "small__lac_8004"
+  },
+  {
+    "frame": 130,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_8019",
+    "layer_id": "small__lac_8019"
+  },
+  {
+    "frame": 131,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_9001",
+    "layer_id": "small__lac_9001"
+  },
+  {
+    "frame": 132,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_9010",
+    "layer_id": "small__lac_9010"
+  },
+  {
+    "frame": 133,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_9016",
+    "layer_id": "small__lac_9016"
+  },
+  {
+    "frame": 134,
+    "role": "beauty",
+    "group": "small",
+    "material": "lac_9017",
+    "layer_id": "small__lac_9017"
+  },
+  {
+    "frame": 135,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_calacatta-viola-180x240",
+    "layer_id": "small__marble_calacatta-viola-180x240"
+  },
+  {
+    "frame": 136,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_colorado-330x200",
+    "layer_id": "small__marble_colorado-330x200"
+  },
+  {
+    "frame": 137,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_elegant-brown-295x199",
+    "layer_id": "small__marble_elegant-brown-295x199"
+  },
+  {
+    "frame": 138,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_oyster-white-317x192",
+    "layer_id": "small__marble_oyster-white-317x192"
+  },
+  {
+    "frame": 139,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_emperador-brown-light",
+    "layer_id": "small__marble_emperador-brown-light"
+  },
+  {
+    "frame": 140,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_rosso-levanto",
+    "layer_id": "small__marble_rosso-levanto"
+  },
+  {
+    "frame": 141,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_super-white",
+    "layer_id": "small__marble_super-white"
+  },
+  {
+    "frame": 142,
+    "role": "beauty",
+    "group": "small",
+    "material": "marble_travertino-grigio",
+    "layer_id": "small__marble_travertino-grigio"
+  }
+]

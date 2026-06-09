@@ -1,0 +1,508 @@
+/* =========================================================================
+   Talento POC — Configuratore tavolo embedded nella pagina Laurameroni.
+   Stesso linguaggio dell'Amelie (font/colori dal loro design system),
+   ma con 4 gruppi finitura: Piano · Gamba grande A · Gamba grande B · Inserto.
+   ========================================================================= */
+
+.lm-configurator {
+  padding-top: 60px;
+  padding-bottom: 80px;
+}
+
+/* INTRO row */
+.lm-configurator__intro { margin-bottom: 40px; }
+.lm-configurator__lead {
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--general-black, #232323);
+}
+.lm-configurator__lead p { margin: 0; }
+
+/* MAIN row: stage a sinistra, pannello a destra */
+.lm-configurator__main { align-items: flex-start; }
+
+/* STAGE */
+.lm-configurator__stage { background: transparent; }
+/* su desktop lo stage resta visibile mentre si scorrono i 4 gruppi */
+@media (min-width: 992px) {
+  .lm-configurator__stage { position: sticky; top: 92px; }
+}
+.lm-configurator__stage-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--lm-aspect, 2560 / 1810);   /* per-prodotto: imposta --lm-aspect sul blocco */
+  overflow: hidden;
+}
+.lm-configurator__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+.lm-configurator__spinner {
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(35,35,35,.15);
+  border-top-color: var(--general-red, #E30713);
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+}
+/* animazione SOLO da visibile: opacity:0 non ferma le animation CSS, il compositor tickerebbe per sempre */
+.lm-configurator__spinner.is-visible { opacity: 1; animation: lm-spin .9s linear infinite; }
+@keyframes lm-spin { to { transform: rotate(360deg); } }
+
+.lm-configurator__stage-meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0 6px;
+  background: transparent;
+  font-family: "Raleway", sans-serif;
+}
+.lm-configurator__selection {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 22px;
+  text-align: left;
+  padding-left: 18px;
+}
+.lm-configurator__selection::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--general-black, #232323);
+}
+.lm-configurator__sel {
+  font-family: "Raleway", sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  color: var(--general-black, #232323);
+}
+.lm-configurator__sel b {
+  font-weight: 600;
+}
+.lm-configurator__sel .label {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--general-grey, #909090);
+}
+
+/* PANEL (destra) — 4 sezioni impilate */
+.lm-configurator__panel {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+.lm-configurator__section { padding: 22px 28px; }
+
+/* Rimossi dall'UI: kicker rosso, nome materiale selezionato (selname), testo descrittivo (lead), riga separatrice. */
+.lm-configurator__kicker,
+.lm-configurator__selname,
+.lm-configurator__lead { display: none !important; }
+.lm-configurator__panel-title {
+  font-family: "Crimson Text", serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.1;
+  margin: 0 0 4px;
+  color: var(--general-black, #232323);
+}
+.lm-configurator__selname {
+  margin: 0 0 14px;
+  font-family: "Raleway", sans-serif;
+  font-size: 13px;
+  color: var(--general-grey, #909090);
+  letter-spacing: 0.02em;
+  min-height: 18px;
+}
+.lm-configurator__selname strong {
+  color: var(--general-black, #232323);
+  font-weight: 600;
+}
+
+/* ACCORDION — attivo automaticamente quando i componenti sono > 2 (classe aggiunta dall'engine).
+   Header = panel-title (toggle, chevron); corpo collassabile = .acc-body > .acc-inner (animazione grid-rows). */
+.lm-configurator__panel--accordion .lm-configurator__section { padding: 0; }   /* il fix layout tablet sta nel media query */
+.lm-configurator__panel--accordion .lm-configurator__panel-title {
+  margin: 0; padding: 18px 2px; cursor: pointer; user-select: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  transition: color .2s ease;   /* font-size: eredita la base 28px + breakpoint responsive (uniforme tra prodotti) */
+}
+.lm-configurator__panel--accordion .lm-configurator__panel-title:hover { color: var(--general-red, #E30713); }
+.lm-configurator__panel--accordion .lm-configurator__panel-title::after {
+  content: ''; flex: 0 0 auto; width: 8px; height: 8px;
+  border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor;
+  transform: translateY(-2px) rotate(45deg); transition: transform .4s cubic-bezier(.33, 1, .68, 1); margin-right: 4px;
+}
+.lm-configurator__panel--accordion .lm-configurator__section.is-open .lm-configurator__panel-title::after {
+  transform: translateY(2px) rotate(-135deg);
+}
+.lm-configurator__acc-body {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows .5s cubic-bezier(.33, 1, .68, 1);   /* anima fino all'altezza ESATTA del contenuto: l'intera durata e' movimento visibile = fluido */
+}
+.lm-configurator__section.is-open .lm-configurator__acc-body { grid-template-rows: 1fr; }
+.lm-configurator__acc-inner {
+  overflow: hidden; min-height: 0;
+  opacity: 0;                                  /* fade-in del contenuto (opacity non incide sul sizing della riga grid) */
+  transition: opacity .34s ease .08s;
+}
+.lm-configurator__panel--accordion .lm-configurator__section.is-open .lm-configurator__acc-inner {
+  opacity: 1; padding-bottom: 20px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lm-configurator__acc-body, .lm-configurator__acc-inner { transition: none; }
+}
+
+/* CATEGORY TABS (sotto-filtro per tipo finitura: Legno / Marmo / Laccato) */
+.lm-configurator__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 8px 0 14px;
+}
+.lm-configurator__tabs:empty { display: none; }
+.lm-configurator__tab {
+  background: transparent;
+  border: 0;
+  padding: 0 0 5px;
+  cursor: pointer;
+  font-family: "Raleway", sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--general-grey, #909090);
+  border-bottom: 1px solid transparent;
+  transition: color .2s ease, border-color .2s ease;
+  white-space: nowrap;
+}
+.lm-configurator__tab:hover { color: var(--general-black, #232323); }
+.lm-configurator__tab.is-active {
+  color: var(--general-black, #232323);
+  border-bottom-color: var(--general-red, #E30713);
+}
+.lm-configurator__tab .count {
+  margin-left: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #bdbdbd;
+}
+.lm-configurator__tab.is-active .count { color: var(--general-red, #E30713); }
+
+/* SWATCHES */
+.lm-configurator__swatch {
+  position: relative;
+  cursor: pointer;
+  aspect-ratio: 1;
+  background: #ccc;
+  border: 1px solid var(--general-light-grey, #DDDDDD);
+  padding: 0;
+  overflow: hidden;
+  transition: border-color .2s ease;
+}
+.lm-configurator__swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+.lm-configurator__swatch:hover { border-color: var(--general-black, #232323); }
+.lm-configurator__swatch:hover img { transform: scale(1.05); }
+.lm-configurator__swatch.is-active { border-color: var(--general-red, #E30713); }
+.lm-configurator__swatch.is-active::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 2px solid var(--general-red, #E30713);
+  pointer-events: none;
+}
+.lm-configurator__swatch.is-active::before {
+  content: '';
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--general-red, #E30713);
+  z-index: 2;
+}
+
+/* SWATCH CAROUSEL — pagine 2x4, frecce laterali, trattini rossi */
+.lm-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.lm-carousel__stage { position: relative; }
+.lm-carousel__viewport {
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.lm-carousel__viewport.is-grabbing { cursor: grabbing; }
+.lm-carousel__track {
+  display: flex;
+  flex-wrap: nowrap;
+  transition: transform .38s cubic-bezier(.4, 0, .2, 1);
+  user-select: none;
+}
+.lm-carousel__page img { -webkit-user-drag: none; }
+.lm-carousel__page {
+  flex: 0 0 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  align-content: start;
+}
+.lm-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none; border: 0; margin: 0; padding: 0;
+  cursor: pointer;
+  color: var(--general-black, #232323);
+  display: flex; align-items: center; justify-content: center;
+  transition: color .2s ease;
+  z-index: 2;
+}
+.lm-carousel__arrow--prev { left: -18px; }
+.lm-carousel__arrow--next { right: -18px; }
+.lm-carousel__arrow svg { width: 10px; height: 16px; display: block; }
+.lm-carousel__arrow:hover { color: var(--general-red, #E30713); }
+.lm-carousel__arrow.is-hidden { visibility: hidden; pointer-events: none; }
+
+.lm-carousel__dots {
+  display: flex; align-items: center; justify-content: flex-start;
+  gap: 6px;
+}
+.lm-carousel__dash {
+  width: 18px; height: 3px; padding: 0; border: 0;
+  border-radius: 0;
+  background: rgba(227, 7, 19, .25);
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.lm-carousel__dash:hover { background: rgba(227, 7, 19, .55); }
+.lm-carousel__dash.is-active { background: var(--general-red, #E30713); }
+
+/* Entrata fluida al cambio categoria */
+@keyframes lm-sw-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.lm-carousel.is-entering .lm-configurator__swatch {
+  animation: lm-sw-in .34s cubic-bezier(.22, .61, .36, 1) both;
+}
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(1) { animation-delay: 0s; }
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(2) { animation-delay: .03s; }
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(3) { animation-delay: .06s; }
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(4) { animation-delay: .09s; }
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(5) { animation-delay: .04s; }
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(6) { animation-delay: .07s; }
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(7) { animation-delay: .10s; }
+.lm-carousel.is-entering .lm-configurator__swatch:nth-child(8) { animation-delay: .13s; }
+@keyframes lm-sw-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .lm-carousel.is-entering .lm-configurator__swatch { animation: lm-sw-fade .28s ease both; }
+  .lm-carousel__track { transition-duration: .2s; }
+}
+
+/* ============================== RESPONSIVE ============================== */
+
+/* Tablet (768–991): stage a tutta larghezza, i 4 gruppi sotto su 2 colonne */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .lm-configurator__panel {
+    margin-top: 28px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 40px;
+  }
+  .lm-configurator__panel .lm-configurator__section {
+    flex: 1 1 300px;
+    padding: 20px 0;
+  }
+  .lm-configurator__panel--accordion { flex-direction: column; }                 /* accordion sempre a colonna */
+  .lm-configurator__panel--accordion .lm-configurator__section { flex: 0 1 auto; padding: 0; }
+  .lm-configurator__selection { grid-template-columns: 1fr 1fr; }
+}
+
+/* Mobile (≤767): colonna unica, swipe + trattini (frecce nascoste) */
+@media (max-width: 767.98px) {
+  .lm-configurator { padding-top: 34px; padding-bottom: 48px; }
+  .lm-configurator__panel { margin-top: 18px; }
+  .lm-configurator__section { padding: 18px 2px; }
+  .lm-configurator__panel-title { font-size: 25px; }
+  .lm-configurator__tabs { gap: 8px 16px; margin-bottom: 12px; }
+  .lm-configurator__stage-meta { flex-wrap: wrap; gap: 10px 16px; padding-top: 12px; }
+  .lm-configurator__selection { grid-template-columns: 1fr 1fr; }
+  .lm-carousel { gap: 14px; }
+  .lm-carousel__arrow { display: none; }
+}
+@media (max-width: 400px) {
+  .lm-configurator__panel-title { font-size: 22px; }
+  .lm-configurator__tab { font-size: 11.5px; letter-spacing: .07em; }
+  .lm-configurator__sel { font-size: 12.5px; }
+}
+
+/* Large desktop */
+@media (min-width: 1440px) {
+  .lm-configurator__panel-title { font-size: 31px; }
+  .lm-configurator__sel { font-size: 14.5px; }
+}
+@media (min-width: 1920px) {
+  .lm-configurator__panel-title { font-size: 34px; }
+  .lm-configurator__sel { font-size: 15.5px; }
+  .lm-configurator__selection::before { width: 7px; }
+  .lm-carousel__page { gap: 10px; }
+}
+
+/* =========================================================================
+   FULLSCREEN / LIGHTBOX + azioni (salva immagine / schermo intero)
+   ========================================================================= */
+.lm-configurator__actions {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 4;
+  display: flex;
+  gap: 6px;
+}
+.lm-configurator__action {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: rgba(255, 255, 255, .82);
+  color: var(--general-black, #232323);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 1px 6px rgba(35, 35, 35, .12);
+  transition: color .2s ease, background-color .2s ease, opacity .2s ease;
+}
+.lm-configurator__action:hover { color: var(--general-red, #E30713); background: #fff; }
+.lm-configurator__action:focus-visible { outline: 2px solid var(--general-red, #E30713); outline-offset: 2px; }
+.lm-configurator__action svg { width: 16px; height: 16px; display: block; }
+
+@media (hover: hover) and (pointer: fine) {
+  .lm-configurator__actions { opacity: 0; pointer-events: none; transition: opacity .22s ease; }
+  .lm-configurator__stage-inner:hover .lm-configurator__actions,
+  .lm-configurator__stage-inner:focus-within .lm-configurator__actions { opacity: 1; pointer-events: auto; }
+}
+
+.lm-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vmin, 56px);
+  background: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .32s ease, visibility 0s linear .32s;
+}
+.lm-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity .32s ease;
+}
+.lm-lightbox__inner {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(.985);
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1);
+}
+.lm-lightbox.is-open .lm-lightbox__inner { transform: scale(1); }
+.lm-lightbox__canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lm-lightbox__close {
+  position: absolute;
+  top: clamp(12px, 2.4vmin, 26px);
+  right: clamp(12px, 2.4vmin, 26px);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--general-black, #232323);
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.lm-lightbox__close:hover { color: var(--general-red, #E30713); }
+.lm-lightbox__close:focus-visible { outline: 2px solid var(--general-red, #E30713); outline-offset: 2px; }
+.lm-lightbox__close svg { width: 26px; height: 26px; display: block; }
+.lm-lightbox__caption {
+  flex: 0 0 auto;
+  margin-top: 14px;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--general-black, #232323);
+  text-align: center;
+}
+
+.lm-noscroll { overflow: hidden !important; }
+
+@media (max-width: 767.98px) {
+  .lm-configurator__actions { right: 8px; bottom: 8px; gap: 6px; }
+  .lm-configurator__action { width: 30px; height: 30px; }
+  .lm-configurator__action svg { width: 15px; height: 15px; }
+  .lm-lightbox { padding: 12px; }
+  .lm-lightbox__close { width: 40px; height: 40px; }
+  .lm-lightbox__close svg { width: 22px; height: 22px; }
+  .lm-lightbox__caption { font-size: 12.5px; margin-top: 10px; }
+}
+@media (min-width: 1920px) {
+  .lm-configurator__action { width: 38px; height: 38px; }
+  .lm-configurator__action svg { width: 19px; height: 19px; }
+  .lm-lightbox__caption { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lm-lightbox, .lm-lightbox__inner { transition-duration: .15s; }
+  .lm-lightbox__inner { transform: none; }
+}
