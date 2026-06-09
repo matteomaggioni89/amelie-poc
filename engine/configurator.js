@@ -144,14 +144,30 @@
     else ctx.drawImage(img, 0, 0, W, H);        // full-frame (base, o fallback)
   }
 
-  async function setLayer(key, newSrc) {
+  async function setLayer(key, newSrc, fetchSrc) {
     const L = layers[key]; if (!L) return;
     if (L.currentSrc === newSrc) return;
     const seq = ++L.seq;     // con selezioni rapide, solo la richiesta piu' recente puo' spegnere lo spinner
     inflight.add(key); setSpinner();
     let newImg;
-    try { newImg = await loadAndDecode(newSrc, true); }
-    catch (e) { if (seq === L.seq) { inflight.delete(key); setSpinner(); } return; }
+    try { newImg = await loadAndDecode(fetchSrc || newSrc, true); }
+    catch (e) {
+      if (seq === L.seq) { inflight.delete(key); setSpinner(); }
+      // fallimento transitorio (rete instabile, CDN con 404 in cache subito dopo un deploy):
+      // ritento con backoff invece di lasciare lo stage vuoto in silenzio. NB: il retry usa un
+      // cache-buster proprio (&r=N) perche' il browser tiene in cache negativa il fallimento
+      // dello STESSO URL per tutta la vita del documento (il retry identico fallirebbe subito).
+      L.retries = (L.retries || 0) + 1;
+      const RETRY_MS = [1500, 6000, 20000];          // ~27s di copertura: blip di rete / edge appena deployato
+      if (L.retries <= RETRY_MS.length) {
+        const bust = newSrc + (newSrc.includes('?') ? '&' : '?') + 'r=' + L.retries;
+        setTimeout(() => { if (urls()[key] === newSrc && L.currentSrc !== newSrc) setLayer(key, newSrc, bust); }, RETRY_MS[L.retries - 1]);
+      } else {
+        console.error('Configuratore: layer non caricato dopo i retry:', newSrc);
+      }
+      return;
+    }
+    L.retries = 0;
     if (urls()[key] !== newSrc) { if (seq === L.seq) { inflight.delete(key); setSpinner(); } return; }
     if (L.raf) cancelAnimationFrame(L.raf);
     const oldImg = L.currentImg;
